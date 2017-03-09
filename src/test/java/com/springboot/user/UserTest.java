@@ -1,6 +1,7 @@
 package com.springboot.user;
 
 import com.springboot.Application;
+import com.springboot.user.service.LoginService;
 import com.springboot.user.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,8 +18,16 @@ public class UserTest {
     @Autowired
     UserService userService;
 
+    @Autowired
+    LoginService loginService;
+
     @Test
     public void saveTest(){
         userService.save();
+    }
+
+    @Test
+    public void loginTest(){
+        loginService.saveNamePwd();
     }
 }

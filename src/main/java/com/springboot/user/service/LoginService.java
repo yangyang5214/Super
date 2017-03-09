@@ -1,12 +1,16 @@
 package com.springboot.user.service;
 
+import com.springboot.common.dao.BaseDao;
 import com.springboot.common.util.OCRHelp;
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.slf4j.Logger;
+import com.springboot.user.entity.User;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -30,17 +34,11 @@ public class LoginService {
     public static String code = null;
     public static int status;
 
-    private org.slf4j.Logger logger = LoggerFactory.getLogger(LoginService.class);
+    private Logger logger = LoggerFactory.getLogger(LoginService.class);
 
-    public static void main(String[] args){
-        String username = "20134091122";
-        String password = "z167993_";
-        LoginService loginService = new LoginService();
-        Boolean isSuccess = loginService.login("20134091122","z167993_");
-        if (isSuccess){
-            loginService.saveNamePwd(username,password);
-        }
-    }
+    @Autowired
+    private BaseDao baseDao;
+
     private Boolean login(String username, String password){
         getCookie();
         for (int i= 0;i<10;i++){
@@ -56,8 +54,16 @@ public class LoginService {
         return false;
     }
 
-    private void saveNamePwd(String username, String password){
-        System.out.println("success!");
+    public void saveNamePwd(){
+        String username = "20134091122";
+        String password = "z167993_";
+        Boolean isSuccess = login("20134091122","z167993_");
+        if (isSuccess){
+            User user = new User();
+            user.setUsernaem(username);
+            user.setPassword(password);
+            baseDao.persist(user);
+        }
     }
 
     private int loginByPwd(String username, String password){
