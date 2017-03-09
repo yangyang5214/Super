@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+
+
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="com.springboot">
+        <context:exclude-filter type="regex"
+                                expression="com.springboot.service.*" />
+    </context:component-scan>
+
+    <!-- properties -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:application.properties</value>
+            </list>
+        </property>
+    </bean>
+    <!-- datasource -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+        <property name="jdbcUrl" value="${jdbc.truck.url}" />
+        <property name="user" value="${jdbc.truck.username}" />
+        <property name="password" value="${jdbc.truck.password}" />
+        <property name="minPoolSize" value="5" />
+        <property name="maxPoolSize" value="50" />
+        <property name="maxIdleTime" value="1800" />
+        <property name="acquireIncrement" value="3" />
+        <property name="maxStatements" value="0" />
+        <property name="initialPoolSize" value="5" />
+        <property name="idleConnectionTestPeriod" value="600" />
+        <property name="acquireRetryAttempts" value="30" />
+        <property name="acquireRetryDelay" value="100" />
+        <property name="breakAfterAcquireFailure" value="false" />
+        <property name="testConnectionOnCheckout" value="false" />
+    </bean>
+
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="packagesToScan" value="com.springboot"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+                hibernate.hbm2ddl.auto=update
+                hibernate.bytecode.use_reflection_optimizer=false
+                hibernate.show_sql=${eshipping.debug}
+                format_sql=true
+                use_sql_comments=true
+                hibernate.connection.characterEncoding=UTF-8
+                hibernate.connection.charSet=UTF-8
+                hibernate.cache.region.factory_class=org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+                hibernate.cache.use_second_level_cache=true
+                javax.persistence.sharedCache.mode=ENABLE_SELECTIVE
+                hibernate.generate_statistics=false
+            </value>
+        </property>
+        <property name="loadTimeWeaver">
+            <bean
+                    class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+        </property>
+    </bean>
+
+    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource" />-->
+        <!--<property name="configLocation" value="classpath:mybatis-config.xml" />-->
+        <!--<property name="mapperLocations" value="classpath:mapper/*.xml" />-->
+    <!--</bean>-->
+    <!--<bean id="simpleSqlSession" class="org.mybatis.spring.SqlSessionTemplate">-->
+        <!--<constructor-arg index="0" ref="sqlSessionFactory" />-->
+        <!--<constructor-arg index="1" value="SIMPLE" />-->
+    <!--</bean>-->
+    <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+        <!--<property name="basePackage" value="com.eshipping.*.mapper" />-->
+        <!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />-->
+    <!--</bean>-->
+
+    <!--transaction management -->
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="txManager" />
+    <task:executor id="taskExecutor" />
+    <tx:advice id="defaultTxAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="list*" read-only="true" />
+            <tx:method name="find*" read-only="true" />
+            <tx:method name="*" />
+        </tx:attributes>
+    </tx:advice>
+
+    <tx:advice id="noTxAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="NEVER" />
+        </tx:attributes>
+    </tx:advice>
+
+
+	<!-- spring thread -->
+	<bean id="poolTaskExecutor"   
+        class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">  
+                <property name="corePoolSize" value="5" />  
+                <property name="maxPoolSize" value="10" />  
+                <property name="queueCapacity" value="100" />
+                <property name="keepAliveSeconds" value="30000" />
+                <property name="WaitForTasksToCompleteOnShutdown" value="true" />  
+    </bean>
+
+</beans>

@@ -1,0 +1,4 @@
+用maven spring-boot:run来启动
+spring-boot默认不支持JSP模板
+需要集成JSP的请参考https://github.com/spring-projects/spring-boot/tree/master/spring-boot-samples/spring-boot-sample-web-jsp
+拦截器和过滤器不要配相同的url，不然，Interceptor不会被执行
