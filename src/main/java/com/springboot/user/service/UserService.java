@@ -47,6 +47,9 @@ public class UserService {
         User user = baseDao.findById(User.class,userDto.getId());
         user.setUniversityName(userDto.getUniversityName());
         user.setNickName(userDto.getNickName());
+        user.setSex(userDto.getSex());
+        user.setArea(userDto.getArea());
+        user.setSignature(userDto.getSignature());
         baseDao.persist(user);
         return  new ResponseDto();
     }

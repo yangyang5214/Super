@@ -20,7 +20,7 @@ import java.util.UUID;
  * Created by zl on 2017/3/9.
  */
 @Service
-public class LoginService {
+public class TesseractService {
 
     public String URL_BASE = "http://61.167.199.232/";  // 基础地址
     public static final String URL_CODE = "verifycode.servlet"; // 验证码地址
@@ -34,7 +34,7 @@ public class LoginService {
     public static String code = null;
     public static int status;
 
-    private Logger logger = LoggerFactory.getLogger(LoginService.class);
+    private Logger logger = LoggerFactory.getLogger(TesseractService.class);
 
     @Autowired
     private BaseDao baseDao;
@@ -54,16 +54,15 @@ public class LoginService {
         return false;
     }
 
-    public void saveNamePwd(){
-        String username = "20134091122";
-        String password = "z167993_";
-        Boolean isSuccess = login("20134091122","z167993_");
+    public Boolean saveNamePwd(String username, String password){
+        Boolean isSuccess = login(username,password);
         if (isSuccess){
             User user = new User();
             user.setUsernaem(username);
             user.setPassword(password);
             baseDao.persist(user);
         }
+        return isSuccess;
     }
 
     private int loginByPwd(String username, String password){

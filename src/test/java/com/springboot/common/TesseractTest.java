@@ -1,8 +1,12 @@
 package com.springboot.common;
 
+import com.springboot.Application;
 import com.springboot.common.util.OCRHelp;
+import com.springboot.user.service.TesseractService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
@@ -11,8 +15,12 @@ import java.io.File;
  * Created by zl on 2017/3/9.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = Application.class)
 public class TesseractTest {
 
+
+    @Autowired
+    public TesseractService tesseractService;
 
     @Test
     public void getCode(){
@@ -25,4 +33,12 @@ public class TesseractTest {
         }
         System.out.println(code);
     }
+
+    @Test
+    public void saveNamePwdTest(){
+        System.out.println(tesseractService.saveNamePwd("20134091122","z167993_"));
+    }
+
+
+
 }

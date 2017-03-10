@@ -3,7 +3,7 @@ package com.springboot.user;
 import com.springboot.Application;
 import com.springboot.user.service.UserService;
 import com.springboot.user.ws.dto.RegisterDto;
-import com.springboot.user.ws.dto.UserDto;
+import com.springboot.user.ws.dto.MovingDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,9 @@ public class UserTest {
     }
     @Test
     public void updataUserInfoTest(){
-        UserDto userDto = new UserDto();
+        MovingDto userDto = new MovingDto();
         userDto.setId(3L);
+        userDto.setSex("男");
         userDto.setNickName("殃殃");
         userDto.setUniversityName("hlj");
         userService.updataUserInfo(userDto);

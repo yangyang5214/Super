@@ -29,11 +29,21 @@ public class User extends AggregateRoot{
     private String nickName;
 
     @Column(name = "SEX")
-    private Boolean sex;
+    private String sex;
 
     @Column(name = "SIGNATURE")
     private String signature;
 
+    @Column(name = "AREA")
+    private String area;
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
 
     public String getSignature() {
         return signature;
@@ -43,11 +53,11 @@ public class User extends AggregateRoot{
         this.signature = signature;
     }
 
-    public Boolean getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Boolean sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
