@@ -23,10 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="springboot" />
+        <module name="Super" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="springboot" target="1.8" />
+      <module name="Super" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
