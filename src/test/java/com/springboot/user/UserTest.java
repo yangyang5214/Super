@@ -1,8 +1,9 @@
 package com.springboot.user;
 
 import com.springboot.Application;
-import com.springboot.user.service.LoginService;
 import com.springboot.user.service.UserService;
+import com.springboot.user.ws.dto.RegisterDto;
+import com.springboot.user.ws.dto.UserDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +19,20 @@ public class UserTest {
     @Autowired
     UserService userService;
 
-    @Autowired
-    LoginService loginService;
 
     @Test
-    public void saveTest(){
-        userService.save();
+    public void registerTest(){
+        RegisterDto registerDto = new RegisterDto();
+        registerDto.setUsername("13936754903");
+        registerDto.setPassword("yangyang5214");
+        userService.register(registerDto);
     }
-
     @Test
-    public void loginTest(){
-        loginService.saveNamePwd();
+    public void updataUserInfoTest(){
+        UserDto userDto = new UserDto();
+        userDto.setId(3L);
+        userDto.setNickName("殃殃");
+        userDto.setUniversityName("hlj");
+        userService.updataUserInfo(userDto);
     }
 }

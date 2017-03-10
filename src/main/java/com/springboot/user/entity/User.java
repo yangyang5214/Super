@@ -19,8 +19,53 @@ public class User extends AggregateRoot{
     @Column(name = "USERNAME")
     private String usernaem;
 
-    @Column(name = "PWD")
+    @Column(name = "PASSWORD")
     private String password;
+
+    @Column(name = "UNIVERSITYNAME")
+    private String universityName;
+
+    @Column(name = "NICKNAME")
+    private String nickName;
+
+    @Column(name = "SEX")
+    private Boolean sex;
+
+    @Column(name = "SIGNATURE")
+    private String signature;
+
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public Boolean getSex() {
+        return sex;
+    }
+
+    public void setSex(Boolean sex) {
+        this.sex = sex;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getUniversityName() {
+        return universityName;
+    }
+
+    public void setUniversityName(String universityName) {
+        this.universityName = universityName;
+    }
 
     public long getId() {
         return id;
