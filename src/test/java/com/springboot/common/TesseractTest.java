@@ -1,6 +1,7 @@
 package com.springboot.common;
 
 import com.springboot.Application;
+import com.springboot.common.util.EmailUtil;
 import com.springboot.common.util.OCRHelp;
 import com.springboot.user.service.TesseractService;
 import org.junit.Test;
@@ -10,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zl on 2017/3/9.
@@ -22,8 +25,11 @@ public class TesseractTest {
     @Autowired
     public TesseractService tesseractService;
 
+    @Autowired
+    public EmailUtil emailUtil;
+
     @Test
-    public void getCode(){
+    public void getCode() {
         File file = new File("D:\\temp\\imageCode\\code-1b51f425-51ff-4c0d-a343-a9bac2511e95.png");
         String code = null;
         try {
@@ -35,10 +41,17 @@ public class TesseractTest {
     }
 
     @Test
-    public void saveNamePwdTest(){
-        System.out.println(tesseractService.saveNamePwd("20134091122","z167993_"));
+    public void saveNamePwdTest() {
+        System.out.println(tesseractService.saveNamePwd("20134091122", "z167993_"));
     }
 
+    @Test
+    public void sendEmail() {
+        List<String> filePathList = new ArrayList<>();
+        filePathList.add("D:\\temp\\imageCode\\code-b35c37a1-19d5-4b42-b75e-b6fbb5005bbc.png");
+        filePathList.add("D:\\temp\\haikou\\0a35fb22-a70e-4436-bb3d-3dc8f1c4cb40.xls");
+        emailUtil.sendEmail("1679937491@qq.com", "通知", "hello",filePathList);
+    }
 
 
 }

@@ -3,7 +3,7 @@ package com.springboot.user;
 import com.springboot.Application;
 import com.springboot.user.service.UserService;
 import com.springboot.user.ws.dto.RegisterDto;
-import com.springboot.user.ws.dto.MovingDto;
+import com.springboot.user.ws.dto.UserDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class UserTest {
     }
     @Test
     public void updataUserInfoTest(){
-        MovingDto userDto = new MovingDto();
+        UserDto userDto = new UserDto();
         userDto.setId(3L);
         userDto.setSex("男");
         userDto.setNickName("殃殃");
