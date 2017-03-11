@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OCRHelp {
+public class OCRUtil {
     private final String LANG_OPTION = "-l";
     private final String EOL = System.getProperty("line.separator");
     private String tessPath = "C:\\Program Files (x86)\\Tesseract-OCR";

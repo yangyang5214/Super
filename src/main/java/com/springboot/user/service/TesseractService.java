@@ -1,7 +1,7 @@
 package com.springboot.user.service;
 
 import com.springboot.common.dao.BaseDao;
-import com.springboot.common.util.OCRHelp;
+import com.springboot.common.util.OCRUtil;
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
@@ -122,7 +122,7 @@ public class TesseractService {
             InputStream inputStream = get.getResponseBodyAsStream();
             File imageFile = saveImageCode(inputStream);
             try {
-                code = new OCRHelp().recognizeText(imageFile);
+                code = new OCRUtil().recognizeText(imageFile);
             } catch (IOException e) {
                 logger.error("get code error",e);
             } catch (Exception e) {
