@@ -23,17 +23,19 @@ public class UserTest {
     @Test
     public void registerTest(){
         RegisterDto registerDto = new RegisterDto();
-        registerDto.setUsername("13936754903");
+        registerDto.setUsername("13936754904");
         registerDto.setPassword("yangyang5214");
-        userService.register(registerDto);
+        Boolean isSuccess =  userService.register(registerDto).getSuccess();
+        System.out.println(isSuccess);
     }
     @Test
     public void updataUserInfoTest(){
         UserDto userDto = new UserDto();
-        userDto.setId(3L);
+        userDto.setId(1L);
         userDto.setSex("男");
         userDto.setNickName("殃殃");
         userDto.setUniversityName("hlj");
-        userService.updataUserInfo(userDto);
+        Boolean isSuccess = userService.updataUserInfo(userDto).getSuccess();
+        System.out.println(isSuccess);
     }
 }
