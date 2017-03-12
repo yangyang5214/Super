@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.csource:fastdfs-client-java:unknown">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/csource/fastdfs-client-java/unknown/fastdfs-client-java-unknown.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/csource/fastdfs-client-java/unknown/fastdfs-client-java-unknown-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/csource/fastdfs-client-java/unknown/fastdfs-client-java-unknown-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
