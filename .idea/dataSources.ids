@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="MySQL - super@localhost" uuid="c5f8383b-3edc-4013-bbfe-348bc2abcf0f">
+  <data-source name="MySQL - super@123.206.100.60" uuid="c5f8383b-3edc-4013-bbfe-348bc2abcf0f">
     <database-info product="MySQL" version="5.7.13-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
@@ -8,6 +8,71 @@
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
     <database-model serializer="dbm" rdbms="MYSQL" format-version="2.4">
       <schema id="1" name="super"/>
+      <table id="2" parent="1" name="moving"/>
+      <table id="3" parent="1" name="user"/>
+      <column id="4" parent="2" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="5" parent="2" name="content">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="6" parent="2" name="imageurl">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="7" parent="2" name="user_id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <index id="8" parent="2" name="FKmy9jia53iv46kpdoxlm3u9chh">
+        <columns>user_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="9" parent="2" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="10" parent="2" name="FKmy9jia53iv46kpdoxlm3u9chh">
+        <columns>user_id</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="11" parent="3" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="12" parent="3" name="creation_time">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="13" parent="3" name="last_update_time">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="14" parent="3" name="area">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="15" parent="3" name="nickname">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="16" parent="3" name="password">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="17" parent="3" name="sex">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="18" parent="3" name="signature">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="19" parent="3" name="universityname">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="20" parent="3" name="username">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <key id="21" parent="3" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
     </database-model>
   </data-source>
 </component>
