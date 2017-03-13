@@ -185,8 +185,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.csource</groupId>
+            <groupId>org.csource.fastdfs</groupId>
             <artifactId>fastdfs-client-java</artifactId>
+            <version>1.25</version>
         </dependency>
     </dependencies>
 

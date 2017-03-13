@@ -34,10 +34,10 @@
     <!-- datasource -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close">
-        <property name="driverClass" value="${jdbc.driverClassName}" />
-        <property name="jdbcUrl" value="${jdbc.truck.url}" />
-        <property name="user" value="${jdbc.truck.username}" />
-        <property name="password" value="${jdbc.truck.password}" />
+        <property name="driverClass" value="${spring.datasource.driver-class-name}" />
+        <property name="jdbcUrl" value="${spring.datasource.url}" />
+        <property name="user" value="${spring.datasource.username}" />
+        <property name="password" value="${spring.datasource.password}" />
         <property name="minPoolSize" value="5" />
         <property name="maxPoolSize" value="50" />
         <property name="maxIdleTime" value="1800" />
