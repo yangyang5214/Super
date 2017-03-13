@@ -5,6 +5,7 @@ import com.springboot.common.dao.BaseDao;
 import com.springboot.common.dto.ResponseDto;
 import com.springboot.common.util.ExcelUtil;
 import com.springboot.common.util.StringUtil;
+import com.springboot.user.dao.UserDao;
 import com.springboot.user.entity.User;
 import com.springboot.user.ws.dto.RegisterDto;
 import com.springboot.user.ws.dto.UserDto;
@@ -12,12 +13,18 @@ import com.springboot.user.ws.dto.UserPoiDto;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.jeecgframework.poi.excel.ExcelExportUtil;
+import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -32,6 +39,9 @@ public class UserService {
     @Autowired
     private BaseDao baseDao;
 
+    @Autowired
+    private UserDao userDao;
+
    public ResponseDto register(RegisterDto registerDto){
        ResponseDto responseDto = new ResponseDto();
        User user = baseDao.find(User.class,"USERNAME",registerDto.getUsername());
@@ -41,7 +51,7 @@ public class UserService {
            return responseDto;
        }
        user = new User();
-       user.setUsernaem(registerDto.getUsername());
+       user.setUsername(registerDto.getUsername());
        user.setPassword(registerDto.getPassword());
        baseDao.persist(user);
        return new ResponseDto();
@@ -113,6 +123,30 @@ public class UserService {
         }
         userPoiDtoList.stream().forEach(p->register(new RegisterDto(p)));
         return new ResponseDto();
+    }
+
+
+    public InputStream exportUserMessage(){
+        TemplateExportParams params = new TemplateExportParams("export/用户信息导出格式.xls");
+        Map<String, Object> maps = new HashMap<>();
+        maps.put("user","APP");
+        List<Object[]> listUserInfo = userDao.queryUserMessageForExport();
+        List<Map<String,Object>> mapsUserInfo = Lists.newArrayList();
+        for (Object[] object : listUserInfo) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("username",object[0].toString());
+            map.put("password",object[1].toString());
+            mapsUserInfo.add(map);
+        }
+        maps.put("maplist",mapsUserInfo);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        Workbook workbook = ExcelExportUtil.exportExcel(params, maps);
+        try {
+            workbook.write(output);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ByteArrayInputStream(output.toByteArray());
     }
 
 

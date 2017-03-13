@@ -9,6 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "USER")
+
 public class User extends AggregateRoot{
 
     @Id
@@ -17,7 +18,7 @@ public class User extends AggregateRoot{
     private long id;
 
     @Column(name = "USERNAME")
-    private String usernaem;
+    private String username;
 
     @Column(name = "PASSWORD")
     private String password;
@@ -85,12 +86,12 @@ public class User extends AggregateRoot{
         this.id = id;
     }
 
-    public String getUsernaem() {
-        return usernaem;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsernaem(String usernaem) {
-        this.usernaem = usernaem;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

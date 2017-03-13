@@ -58,7 +58,7 @@ public class TesseractService {
         Boolean isSuccess = login(username,password);
         if (isSuccess){
             User user = new User();
-            user.setUsernaem(username);
+            user.setUsername(username);
             user.setPassword(password);
             baseDao.persist(user);
         }

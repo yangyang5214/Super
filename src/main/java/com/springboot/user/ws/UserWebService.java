@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.core.Response;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by zl on 2017/3/9.
@@ -39,4 +42,15 @@ public class UserWebService {
     public ResponseDto updataUserInfo(@NotNull UserDto userDto){
         return userService.updataUserInfo(userDto);
     }
+
+    @RequestMapping(value = "/export/userInfo",method = RequestMethod.GET)
+    public Response exportUserInfo(){
+        return Response.ok(userService.exportUserMessage()).
+                header("Content-Disposition","attachment; filename=\"user" +DateTimeFormatter.
+                ofPattern("yyyy-MM-dd HH:mm:ss").
+                format(LocalDateTime.now()) + ".xls\"").
+                build();
+    }
+
+
 }

@@ -21,6 +21,7 @@ public class PoiTest {
 
     @Autowired
     private UserService userService;
+
     @Test
     public  void uploadUserMessageTest(){
         try {
@@ -29,6 +30,12 @@ public class PoiTest {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
+
+    @Test
+    public void exportUserMessageTest(){
+        userService.exportUserMessage();
+    }
+
+
 }
