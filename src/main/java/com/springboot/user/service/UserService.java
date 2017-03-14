@@ -3,6 +3,7 @@ package com.springboot.user.service;
 import com.google.common.collect.Lists;
 import com.springboot.common.dao.BaseDao;
 import com.springboot.common.dto.ResponseDto;
+import com.springboot.common.listener.StoredUser;
 import com.springboot.common.util.ExcelUtil;
 import com.springboot.common.util.StringUtil;
 import com.springboot.user.dao.UserDao;
@@ -72,6 +73,10 @@ public class UserService {
             responseDto.setMessage("用户名或密码错误！");
             return responseDto;
         }
+        StoredUser storedUser = new StoredUser();
+        storedUser.setActive(Boolean.TRUE);
+        storedUser.setId(user.getId());
+        storedUser.setName(user.getUsername());
         responseDto.setObj(new UserDto(user));
         return responseDto;
     }

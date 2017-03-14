@@ -38,4 +38,13 @@ public class UserTest {
         Boolean isSuccess = userService.updataUserInfo(userDto).getSuccess();
         System.out.println(isSuccess);
     }
+
+    @Test
+    public void loginTest(){
+        RegisterDto registerDto = new RegisterDto();
+        registerDto.setUsername("13936754904");
+        registerDto.setPassword("yangyang5214");
+        Boolean isSuccess =  userService.login(registerDto).getSuccess();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.springboot.moving.entity;
 
+import com.springboot.common.entity.AggregateRoot;
 import com.springboot.user.entity.User;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "MOVING")
-public class Moving {
+public class Moving extends AggregateRoot {
 
     @Id
     @GeneratedValue()
@@ -22,9 +23,21 @@ public class Moving {
     @Column(name = "IMAGEURL")
     private String imageUrl;
 
+    @Column(name = "POSITION")
+    private String position;
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
     private User user;
+
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
 
     public long getId() {
         return id;

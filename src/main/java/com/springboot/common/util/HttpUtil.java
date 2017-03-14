@@ -8,6 +8,16 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -128,6 +138,37 @@ public class HttpUtil {
         in.close();
         return contentBuffer.toString();
     }
+
+    /**
+     * 转发  发送文件流
+     * @param inputStream
+     * @param fileName
+     * @param path
+     * @return
+     */
+    public static String postServiceFile(InputStream inputStream,String fileName, String path){
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(path);
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        builder.addBinaryBody("upfile", inputStream, ContentType.parse("application/vnd.ms-excel"),fileName);
+        HttpEntity entity = builder.build();
+        httppost.setEntity(entity);
+        CloseableHttpResponse response = null;
+        HttpEntity resEntity = null;
+        try {
+            response = httpclient.execute(httppost);
+            resEntity = response.getEntity();
+            EntityUtils.consume(resEntity);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return resEntity.toString();
+    }
+
+
 
 
 

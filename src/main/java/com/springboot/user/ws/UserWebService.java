@@ -1,6 +1,7 @@
 package com.springboot.user.ws;
 
 import com.springboot.common.dto.ResponseDto;
+import com.springboot.common.filter.BaseWebService;
 import com.springboot.user.service.UserService;
 import com.springboot.user.ws.dto.RegisterDto;
 import com.springboot.user.ws.dto.UserDto;
@@ -21,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 @Controller
 @ResponseBody
 @RequestMapping("/user")
-public class UserWebService {
+public class UserWebService extends BaseWebService {
 
     @Autowired
     UserService userService;
