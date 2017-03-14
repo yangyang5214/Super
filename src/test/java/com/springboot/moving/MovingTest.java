@@ -27,9 +27,16 @@ public class MovingTest {
         File file = new File("C:\\Users\\lixi2000\\Desktop\\QQ图片20170314093510.png");
         Long userid = 1L;
         MovingDto movingDto = new MovingDto();
-        movingDto.setContent("啦啦啦啦啦");
+        movingDto.setContent("qqq");
         movingDto.setPosition("shanghai");
         MultipartFile multipartFile = null;
         movingService.publishMoving(multipartFile,movingDto,userid);
     }
+
+    @Test
+    public  void listMoving(){
+        movingService.listMoving();
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.springboot.moving.ws;
 
+import com.springboot.common.dto.ListResponseDto;
 import com.springboot.common.dto.ResponseDto;
 import com.springboot.common.filter.BaseWebService;
 import com.springboot.moving.service.MovingService;
@@ -30,8 +31,8 @@ public class MovingWebService extends BaseWebService {
         return movingService.publishMoving(file, movingDto, getUser().getId());
     }
 
-    @RequestMapping(value = "/allMoving", method = RequestMethod.POST)
-    public ResponseDto listMoving() {
+    @RequestMapping(value = "/allMoving", method = RequestMethod.GET)
+    public ListResponseDto<MovingDto> listMoving() {
         return movingService.listMoving();
     }
 }

@@ -38,6 +38,17 @@ public class User extends AggregateRoot{
     @Column(name = "AREA")
     private String area;
 
+    @Column(name = "AVATAR")
+    private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public String getArea() {
         return area;
     }
