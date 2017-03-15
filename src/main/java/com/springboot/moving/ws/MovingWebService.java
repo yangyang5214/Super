@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @ResponseBody
 @RequestMapping("/moving")
-public class MovingWebService{
+public class MovingWebService {
 
     @Autowired
     private MovingService movingService;
@@ -37,11 +37,11 @@ public class MovingWebService{
             @RequestParam("size") int size,
             @RequestParam("offset") int offset
     ) {
-        return movingService.listMoving(offset,size);
+        return movingService.listMoving(offset, size);
     }
 
     @RequestMapping(value = "/publish/comment", method = RequestMethod.POST)
-    public ListResponseDto<Comment> publishComment(CommentDto commentDto){
-       return movingService.publishComment(commentDto);
+    public ListResponseDto<Comment> publishComment(CommentDto commentDto) {
+        return movingService.publishComment(commentDto);
     }
 }

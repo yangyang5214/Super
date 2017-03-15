@@ -19,13 +19,13 @@ public class MovingDto {
     private String userName;
     private String avatarUrl;//头像
 
-    private List<Comment> listComment = Lists.newArrayList();
+    private List<CommentDto> listComment = Lists.newArrayList();
 
-    public List<Comment> getListComment() {
+    public List<CommentDto> getListComment() {
         return listComment;
     }
 
-    public void setListComment(List<Comment> listComment) {
+    public void setListComment(List<CommentDto> listComment) {
         this.listComment = listComment;
     }
 

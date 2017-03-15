@@ -3,6 +3,7 @@ package com.springboot.moving.service;
 import com.google.common.collect.Lists;
 import com.springboot.common.dto.ListResponseDto;
 import com.springboot.common.dto.ResponseDto;
+import com.springboot.common.util.Collections3;
 import com.springboot.common.util.FastDFSUtil;
 import com.springboot.moving.dao.MovingDao;
 import com.springboot.moving.entity.Comment;
@@ -89,8 +90,21 @@ public class MovingService {
         movingDto.setImageUrl(moving.getImageUrl());
         movingDto.setPublishTime(String.valueOf(moving.getCreationTime()));
         movingDto.setPosition(moving.getPosition());
-        movingDto.setListComment(moving.getCommentList());
+        if(Collections3.isNotEmpty(moving.getCommentList())){
+            List<CommentDto> listComment = Lists.newArrayList();
+            moving.getCommentList().stream().forEach(p->listComment.add(formatComment(p)));
+            movingDto.setListComment(listComment);
+        }
         return movingDto;
+    }
+
+    public  CommentDto  formatComment(Comment comment){
+        CommentDto commentDto = new CommentDto();
+        commentDto.setContent(comment.getContent());
+        commentDto.setCommentUserId(String.valueOf(comment.getCommentUser().getId()));
+        commentDto.setUnCommentUserId(String.valueOf(comment.getUnCommentUser().getId()));
+        commentDto.setMovingId(String.valueOf(comment.getMoving().getId()));
+        return commentDto;
     }
 
     public  ListResponseDto<Comment> publishComment(CommentDto commentDto){
