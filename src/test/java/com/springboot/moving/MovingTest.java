@@ -6,6 +6,7 @@ package com.springboot.moving;
 
 import com.springboot.Application;
 import com.springboot.moving.service.MovingService;
+import com.springboot.moving.ws.dto.CommentDto;
 import com.springboot.moving.ws.dto.MovingDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,17 +26,26 @@ public class MovingTest {
     @Test
     public void  publishMovingTest(){
         File file = new File("C:\\Users\\lixi2000\\Desktop\\timg.jpg");
-        Long userid = 1L;
         MovingDto movingDto = new MovingDto();
         movingDto.setContent("qqq");
         movingDto.setPosition("shanghai");
         MultipartFile multipartFile = null;
-        movingService.publishMoving(multipartFile,movingDto,userid);
+        movingService.publishMoving(multipartFile,movingDto);
     }
 
     @Test
     public  void listMoving(){
-        movingService.listMoving();
+        movingService.listMoving(0,10);
+    }
+
+    @Test
+    public  void  publishComment(){
+        CommentDto commentDto = new CommentDto();
+        commentDto.setMovingId(1+"");
+        commentDto.setContent("我是评论");
+        commentDto.setCommentUserId("2");
+        commentDto.setUnCommentUserId("1");
+        movingService.publishComment(commentDto);
     }
 
 

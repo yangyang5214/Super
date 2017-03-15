@@ -3,7 +3,6 @@ package com.springboot.user.service;
 import com.google.common.collect.Lists;
 import com.springboot.common.dao.BaseDao;
 import com.springboot.common.dto.ResponseDto;
-import com.springboot.common.listener.StoredUser;
 import com.springboot.common.util.EmailUtil;
 import com.springboot.common.util.ExcelUtil;
 import com.springboot.common.util.FastDFSUtil;
@@ -13,6 +12,7 @@ import com.springboot.user.entity.User;
 import com.springboot.user.ws.dto.RegisterDto;
 import com.springboot.user.ws.dto.UserDto;
 import com.springboot.user.ws.dto.UserPoiDto;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -46,6 +46,9 @@ public class UserService {
     @Value("${excel.save.position:}")
     private String excelPosition;
 
+    @Value("${avatar.url:}")
+    private String avatarUrl;
+
     @Autowired
     private BaseDao baseDao;
 
@@ -66,8 +69,15 @@ public class UserService {
        user = new User();
        user.setUsername(registerDto.getUsername());
        user.setPassword(registerDto.getPassword());
+       user.setAvatarUrl(avatarUrl);
+       String nickName= RandomStringUtils.randomAlphanumeric(6);
+       user.setNickName(nickName);
        baseDao.persist(user);
-       return new ResponseDto();
+       UserDto userDto = new UserDto();
+       userDto.setNickName(nickName);
+       userDto.setAvatarUrl(avatarUrl);
+       responseDto.setObj(userDto);
+       return responseDto;
    }
 
 
@@ -85,10 +95,10 @@ public class UserService {
             responseDto.setMessage("用户名或密码错误！");
             return responseDto;
         }
-        StoredUser storedUser = new StoredUser();
-        storedUser.setActive(Boolean.TRUE);
-        storedUser.setId(user.getId());
-        storedUser.setName(user.getUsername());
+//        StoredUser storedUser = new StoredUser();
+//        storedUser.setActive(Boolean.TRUE);
+//        storedUser.setId(user.getId());
+//        storedUser.setName(user.getUsername());
         responseDto.setObj(new UserDto(user));
         return responseDto;
     }

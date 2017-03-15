@@ -1,5 +1,10 @@
 package com.springboot.moving.ws.dto;
 
+import com.google.common.collect.Lists;
+import com.springboot.moving.entity.Comment;
+
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/3/11.
  */
@@ -12,7 +17,17 @@ public class MovingDto {
 
     private String userid;
     private String userName;
-    private String avatar;//头像
+    private String avatarUrl;//头像
+
+    private List<Comment> listComment = Lists.newArrayList();
+
+    public List<Comment> getListComment() {
+        return listComment;
+    }
+
+    public void setListComment(List<Comment> listComment) {
+        this.listComment = listComment;
+    }
 
     public String getUserid() {
         return userid;
@@ -30,12 +45,12 @@ public class MovingDto {
         this.userName = userName;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public String getContent() {

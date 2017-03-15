@@ -27,19 +27,17 @@ public class UserWebService extends BaseWebService {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/register",method = RequestMethod.GET)
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
     public ResponseDto register(@NotNull RegisterDto registerDto){
-        userService.register(registerDto);
-        return new ResponseDto();
+        return userService.register(registerDto);
     }
 
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ResponseDto login(@NotNull RegisterDto registerDto){
-        userService.login(registerDto);
-        return new ResponseDto();
+        return userService.login(registerDto);
     }
 
-    @RequestMapping(value = "/updata/userInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/updata/userInfo",method = RequestMethod.POST)
     public ResponseDto updataUserInfo(@NotNull UserDto userDto){
         return userService.updataUserInfo(userDto);
     }
@@ -58,9 +56,4 @@ public class UserWebService extends BaseWebService {
         userService.exportToMailbox(email);
         return new ResponseDto();
     }
-
-
-
-
-
 }

@@ -8,17 +8,28 @@ import com.springboot.user.entity.User;
 public class UserDto {
 
     private Long id;
-    private String universityName;
     private String nickName;
     private String sex;
     private String signature;
+    private String avatarUrl;
+
     private String area;
+    private String universityName;
+
     public UserDto() {
 
     }
 
     public UserDto(User user) {
 
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public void UserDto(User user) {
@@ -28,6 +39,7 @@ public class UserDto {
         this.sex = user.getSex();
         this.signature = user.getSignature();
         this.area = user.getArea();
+        this.avatarUrl = user.getAvatarUrl();
     }
 
 

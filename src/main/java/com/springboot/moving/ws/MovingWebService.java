@@ -2,8 +2,9 @@ package com.springboot.moving.ws;
 
 import com.springboot.common.dto.ListResponseDto;
 import com.springboot.common.dto.ResponseDto;
-import com.springboot.common.filter.BaseWebService;
+import com.springboot.moving.entity.Comment;
 import com.springboot.moving.service.MovingService;
+import com.springboot.moving.ws.dto.CommentDto;
 import com.springboot.moving.ws.dto.MovingDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @ResponseBody
 @RequestMapping("/moving")
-public class MovingWebService extends BaseWebService {
+public class MovingWebService{
 
     @Autowired
     private MovingService movingService;
@@ -28,11 +29,19 @@ public class MovingWebService extends BaseWebService {
     public ResponseDto publishMoving(
             @RequestParam("file") MultipartFile file,
             @RequestParam("moving") MovingDto movingDto) {
-        return movingService.publishMoving(file, movingDto, getUser().getId());
+        return movingService.publishMoving(file, movingDto);
     }
 
-    @RequestMapping(value = "/allMoving", method = RequestMethod.GET)
-    public ListResponseDto<MovingDto> listMoving() {
-        return movingService.listMoving();
+    @RequestMapping(value = "/allMoving", method = RequestMethod.POST)
+    public ListResponseDto<MovingDto> listMoving(
+            @RequestParam("size") int size,
+            @RequestParam("offset") int offset
+    ) {
+        return movingService.listMoving(offset,size);
+    }
+
+    @RequestMapping(value = "/publish/comment", method = RequestMethod.POST)
+    public ListResponseDto<Comment> publishComment(CommentDto commentDto){
+       return movingService.publishComment(commentDto);
     }
 }

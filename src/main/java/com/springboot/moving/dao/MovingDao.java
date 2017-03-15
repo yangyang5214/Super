@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 public class MovingDao extends BaseDao {
 
-    public List<Moving> listMoving(){
-        String jpql="from Moving where 1=1";
+    public List<Moving> listMoving(int start,int size){
+        String jpql="from Moving limit start";
         Query query = em.createQuery(jpql);
         return query.getResultList();
     }

@@ -5,7 +5,9 @@ import com.springboot.common.dto.ListResponseDto;
 import com.springboot.common.dto.ResponseDto;
 import com.springboot.common.util.FastDFSUtil;
 import com.springboot.moving.dao.MovingDao;
+import com.springboot.moving.entity.Comment;
 import com.springboot.moving.entity.Moving;
+import com.springboot.moving.ws.dto.CommentDto;
 import com.springboot.moving.ws.dto.MovingDto;
 import com.springboot.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +39,11 @@ public class MovingService {
     @Value("${image.url:}")
     private String imageUrl;
 
-    public ResponseDto publishMoving(MultipartFile file, MovingDto movingDto, Long userId) {
+    public ResponseDto publishMoving(MultipartFile file, MovingDto movingDto) {
         Moving moving = new Moving();
         if (null == file) {
             moving.setContent(movingDto.getContent());
-            moving.setUser(movingDao.findById(User.class, userId));
+            moving.setUser(movingDao.findById(User.class, movingDto.getUserid()));
             moving.setPosition(movingDto.getPosition());
         } else {
             try {
@@ -69,10 +71,10 @@ public class MovingService {
         return imageUrl + fileName;
     }
 
-    public ListResponseDto<MovingDto> listMoving() {
+    public ListResponseDto<MovingDto> listMoving(int offset,int size) {
         ListResponseDto<MovingDto> listResponseDto = new ListResponseDto<>();
         List<MovingDto> listMovingDto = Lists.newArrayList();
-        List<Moving> listMoving = movingDao.listMoving();
+        List<Moving> listMoving = movingDao.listMoving(offset*size-1,size);
         listMoving.stream().forEach(p -> listMovingDto.add(formatMoving(p)));
         listResponseDto.setObjs(listMovingDto);
         return listResponseDto;
@@ -80,13 +82,27 @@ public class MovingService {
 
     public MovingDto formatMoving(Moving moving) {
         MovingDto movingDto = new MovingDto();
-        movingDto.setAvatar(moving.getUser().getAvatar());
+        movingDto.setAvatarUrl(moving.getUser().getAvatarUrl());
         movingDto.setUserid(String.valueOf(moving.getUser().getId()));
         movingDto.setUserName(moving.getUser().getUsername());
         movingDto.setContent(moving.getContent());
         movingDto.setImageUrl(moving.getImageUrl());
         movingDto.setPublishTime(String.valueOf(moving.getCreationTime()));
         movingDto.setPosition(moving.getPosition());
+        movingDto.setListComment(moving.getCommentList());
         return movingDto;
     }
+
+    public  ListResponseDto<Comment> publishComment(CommentDto commentDto){
+        ListResponseDto<Comment> listResponseDto = new ListResponseDto<>();
+        Comment comment = new Comment();
+        comment.setContent(commentDto.getContent());
+        comment.setMoving(movingDao.findById(Moving.class,Long.parseLong(commentDto.getMovingId())));
+        comment.setCommentUser(movingDao.findById(User.class,Long.parseLong(commentDto.getCommentUserId())));
+        comment.setUnCommentUser(movingDao.findById(User.class,Long.parseLong(commentDto.getUnCommentUserId())));
+        movingDao.persist(comment);
+        listResponseDto.setObjs(movingDao.findById(Moving.class,Long.parseLong(commentDto.getMovingId())).getCommentList());
+        return listResponseDto;
+    }
+
 }

@@ -38,16 +38,8 @@ public class User extends AggregateRoot{
     @Column(name = "AREA")
     private String area;
 
-    @Column(name = "AVATAR")
-    private String avatar;
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
+    @Column(name = "AVATARURL")
+    private String avatarUrl; //头像
 
     public String getArea() {
         return area;
@@ -55,6 +47,14 @@ public class User extends AggregateRoot{
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public String getSignature() {
