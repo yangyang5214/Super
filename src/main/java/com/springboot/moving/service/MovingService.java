@@ -74,7 +74,7 @@ public class MovingService {
     public ListResponseDto<MovingDto> listMoving(int offset,int size) {
         ListResponseDto<MovingDto> listResponseDto = new ListResponseDto<>();
         List<MovingDto> listMovingDto = Lists.newArrayList();
-        List<Moving> listMoving = movingDao.listMoving(offset*size-1,size);
+        List<Moving> listMoving = movingDao.listMoving((offset-1)*size,size);
         listMoving.stream().forEach(p -> listMovingDto.add(formatMoving(p)));
         listResponseDto.setObjs(listMovingDto);
         return listResponseDto;
