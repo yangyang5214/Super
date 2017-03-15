@@ -53,5 +53,14 @@ public class UserWebService extends BaseWebService {
                 build();
     }
 
+    @RequestMapping(value = "/export/email",method = RequestMethod.GET)
+    public ResponseDto exportToMailbox(@NotNull String email){
+        userService.exportToMailbox(email);
+        return new ResponseDto();
+    }
+
+
+
+
 
 }

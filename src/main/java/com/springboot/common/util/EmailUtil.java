@@ -39,7 +39,7 @@ public class EmailUtil {
             email.setSubject(subject);
             email.setMsg(msg);
             email.setSSLOnConnect(true);
-            if(filepath!=null && filepath.size()>0){
+            if(Collections3.isNotEmpty(filepath)){
                 for(int i=0; i<filepath.size();i++){
                     EmailAttachment attac = new EmailAttachment();
                     attac.setPath(filepath.get(i));

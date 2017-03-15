@@ -24,7 +24,7 @@ public class FileTest {
 
     @Test
     public void saveImageTest(){
-        File file = new File("C:\\Users\\lixi2000\\Desktop\\QQ图片20170314093510.png");
+        File file = new File("C:\\Users\\lixi2000\\Desktop\\521300e0a1904.jpg");
         try {
             String imageUrl = movingService.saveImage(new FileInputStream(file));
             System.out.println(imageUrl);

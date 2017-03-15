@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -30,7 +31,7 @@ public class MovingService {
     private MovingDao movingDao;
 
 
-    @Value("${image.position:}")
+    @Value("${image.save.position:}")
     private String imagePosition;
 
     @Value("${image.url:}")
@@ -56,8 +57,15 @@ public class MovingService {
     public String saveImage(InputStream fileInputStream) {
         String imgId = UUID.randomUUID().toString();
         String fileName = imgId + ".png";
-        String path = imagePosition + "/" + fileName;
+        String filePath = imagePosition + "/" + fileName;
         FastDFSUtil.savePic(fileInputStream, fileName, imagePosition);
+        double imageSize = new File(filePath).length()/1024.0/1024.0;
+        if (imageSize > 1){   //文件大于1M进行压缩
+            String zipFileName = imgId + "-1.png";
+            String zipFilePath = imagePosition + "/" + zipFileName;
+            FastDFSUtil.zipImageFile(filePath,zipFilePath,1000,1);
+            return imageUrl + zipFileName;
+        }
         return imageUrl + fileName;
     }
 

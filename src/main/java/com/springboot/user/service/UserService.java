@@ -4,7 +4,9 @@ import com.google.common.collect.Lists;
 import com.springboot.common.dao.BaseDao;
 import com.springboot.common.dto.ResponseDto;
 import com.springboot.common.listener.StoredUser;
+import com.springboot.common.util.EmailUtil;
 import com.springboot.common.util.ExcelUtil;
+import com.springboot.common.util.FastDFSUtil;
 import com.springboot.common.util.StringUtil;
 import com.springboot.user.dao.UserDao;
 import com.springboot.user.entity.User;
@@ -17,15 +19,18 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -37,11 +42,18 @@ import static java.util.Objects.nonNull;
 @Transactional
 public class UserService {
 
+
+    @Value("${excel.save.position:}")
+    private String excelPosition;
+
     @Autowired
     private BaseDao baseDao;
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    public EmailUtil emailUtil;
 
    public ResponseDto register(RegisterDto registerDto){
        ResponseDto responseDto = new ResponseDto();
@@ -152,6 +164,24 @@ public class UserService {
             e.printStackTrace();
         }
         return new ByteArrayInputStream(output.toByteArray());
+    }
+
+    public void exportToMailbox(String email){
+        FileInputStream fileInputStream = null;
+        String excelPath = saveExcelFile(fileInputStream);
+        List<String> listFilePath = Lists.newArrayList();
+        listFilePath.add(excelPath);
+        String subject = "大学生超级成长档案";
+        String msg  = "";
+        emailUtil.sendEmail(email,subject,msg,listFilePath);
+    }
+
+    public String saveExcelFile(InputStream fileInputStream) {
+        String imgId = UUID.randomUUID().toString();
+        String fileName = imgId + ".xls";
+        String path = excelPosition + "/" + fileName;
+        FastDFSUtil.savePic(fileInputStream, fileName, excelPosition);
+        return path;
     }
 
 

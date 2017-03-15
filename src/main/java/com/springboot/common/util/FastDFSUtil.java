@@ -1,6 +1,9 @@
 package com.springboot.common.util;
 
 
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGEncodeParam;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.StorageClient;
 import org.csource.fastdfs.StorageServer;
@@ -97,7 +100,7 @@ public class FastDFSUtil {
     }
 
     /**
-     * 按设置的宽度高度压缩图片文件<br> 先保存原文件，再压缩、上传
+     * 按宽度高度压缩图片文件<br> 先保存原文件，再压缩、上传
      *
      * @param oldFile 要进行压缩的文件全路径
      * @param newFile 新文件
@@ -106,33 +109,36 @@ public class FastDFSUtil {
      * @param quality 质量
      * @return 返回压缩后的文件的全路径
      */
-    public static String zipWidthHeightImageFile(File oldFile, File newFile, int width, int height, float quality) {
+    public static String zipWidthHeightImageFile(File oldFile, File newFile, int width, int height,
+                                                 float quality) {
         if (oldFile == null) {
             return null;
         }
         String newImage = null;
         try {
-
+            /** 对服务器上的临时文件进行处理 */
             Image srcFile = ImageIO.read(oldFile);
+            int w = srcFile.getWidth(null);
+            //  System.out.println(w);
+            int h = srcFile.getHeight(null);
+            //  System.out.println(h);
 
-            String srcImgPath = newFile.getAbsoluteFile().toString();
-            String subfix = "jpg";
-            subfix = srcImgPath.substring(srcImgPath.lastIndexOf(".") + 1, srcImgPath.length());
+            /** 宽,高设定 */
+            BufferedImage tag = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            tag.getGraphics().drawImage(srcFile, 0, 0, width, height, null);
+            //String filePrex = oldFile.substring(0, oldFile.indexOf('.'));
+            /** 压缩后的文件名 */
+            //newImage = filePrex + smallIcon+ oldFile.substring(filePrex.length());
 
-            BufferedImage buffImg = null;
-            if (subfix.equals("png")) {
-                buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-            } else {
-                buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            }
+            /** 压缩之后临时存放位置 */
+            FileOutputStream out = new FileOutputStream(newFile);
 
-            Graphics2D graphics = buffImg.createGraphics();
-            graphics.setBackground(new Color(255, 255, 255));
-            graphics.setColor(new Color(255, 255, 255));
-            graphics.fillRect(0, 0, width, height);
-            graphics.drawImage(srcFile.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null);
-
-            ImageIO.write(buffImg, subfix, new File(srcImgPath));
+            JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+            JPEGEncodeParam jep = JPEGCodec.getDefaultJPEGEncodeParam(tag);
+            /** 压缩质量 */
+            jep.setQuality(quality, true);
+            encoder.encode(tag, jep);
+            out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -140,6 +146,67 @@ public class FastDFSUtil {
         }
         return newImage;
     }
+
+    /**
+     * 等比例压缩算法：
+     * 算法思想：根据压缩基数和压缩比来压缩原图，生产一张图片效果最接近原图的缩略图
+     *
+     * @param srcURL  原图地址
+     * @param deskURL 缩略图地址
+     * @param comBase 压缩基数
+     * @param scale   压缩限制(宽/高)比例  一般用1：
+     *                当scale>=1,缩略图height=comBase,width按原图宽高比例;若scale<1,缩略图width=comBase,height按原图宽高比例
+     * @throws Exception
+     * @author shenbin
+     * @createTime 2014-12-16
+     * @lastModifyTime 2014-12-16
+     */
+    public static void zipImageFile(String srcURL, String deskURL, double comBase,
+                                    double scale) {
+        File srcFile = new File(srcURL);
+        Image src = null;
+        try {
+            src = ImageIO.read(srcFile);
+            int srcHeight = src.getHeight(null);
+            int srcWidth = src.getWidth(null);
+            int deskHeight = 0;// 缩略图高
+            int deskWidth = 0;// 缩略图宽
+            double srcScale = (double) srcHeight / srcWidth;
+            /**缩略图宽高算法*/
+            if ((double) srcHeight > comBase || (double) srcWidth > comBase) {
+                if (srcScale >= scale || 1 / srcScale > scale) {
+                    if (srcScale >= scale) {
+                        deskHeight = (int) comBase;
+                        deskWidth = srcWidth * deskHeight / srcHeight;
+                    } else {
+                        deskWidth = (int) comBase;
+                        deskHeight = srcHeight * deskWidth / srcWidth;
+                    }
+                } else {
+                    if ((double) srcHeight > comBase) {
+                        deskHeight = (int) comBase;
+                        deskWidth = srcWidth * deskHeight / srcHeight;
+                    } else {
+                        deskWidth = (int) comBase;
+                        deskHeight = srcHeight * deskWidth / srcWidth;
+                    }
+                }
+            } else {
+                deskHeight = srcHeight;
+                deskWidth = srcWidth;
+            }
+            BufferedImage tag = new BufferedImage(deskWidth, deskHeight, BufferedImage.TYPE_3BYTE_BGR);
+            tag.getGraphics().drawImage(src, 0, 0, deskWidth, deskHeight, null); //绘制缩小后的图
+            FileOutputStream deskImage = new FileOutputStream(deskURL); //输出到文件流
+            JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(deskImage);
+            encoder.encode(tag); //近JPEG编码
+            deskImage.close();
+            new File(srcURL).delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
 

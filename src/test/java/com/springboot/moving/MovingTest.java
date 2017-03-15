@@ -24,7 +24,7 @@ public class MovingTest {
     private MovingService movingService;
     @Test
     public void  publishMovingTest(){
-        File file = new File("C:\\Users\\lixi2000\\Desktop\\QQ图片20170314093510.png");
+        File file = new File("C:\\Users\\lixi2000\\Desktop\\timg.jpg");
         Long userid = 1L;
         MovingDto movingDto = new MovingDto();
         movingDto.setContent("qqq");
