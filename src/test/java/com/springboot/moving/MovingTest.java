@@ -35,7 +35,7 @@ public class MovingTest {
 
     @Test
     public  void listMoving(){
-        movingService.listMoving(0,10);
+        movingService.listMoving(1,1);
     }
 
     @Test

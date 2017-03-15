@@ -43,7 +43,7 @@ public class MovingService {
         Moving moving = new Moving();
         if (null == file) {
             moving.setContent(movingDto.getContent());
-            moving.setUser(movingDao.findById(User.class, movingDto.getUserid()));
+            moving.setUser(movingDao.findById(User.class, movingDto.getUserId()));
             moving.setPosition(movingDto.getPosition());
         } else {
             try {
@@ -83,7 +83,7 @@ public class MovingService {
     public MovingDto formatMoving(Moving moving) {
         MovingDto movingDto = new MovingDto();
         movingDto.setAvatarUrl(moving.getUser().getAvatarUrl());
-        movingDto.setUserid(String.valueOf(moving.getUser().getId()));
+        movingDto.setUserId(String.valueOf(moving.getUser().getId()));
         movingDto.setUserName(moving.getUser().getUsername());
         movingDto.setContent(moving.getContent());
         movingDto.setImageUrl(moving.getImageUrl());

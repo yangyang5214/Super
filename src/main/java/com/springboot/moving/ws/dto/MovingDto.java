@@ -15,7 +15,7 @@ public class MovingDto {
     private String imageUrl;
     private String publishTime;
 
-    private String userid;
+    private String userId;
     private String userName;
     private String avatarUrl;//头像
 
@@ -29,12 +29,12 @@ public class MovingDto {
         this.listComment = listComment;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {

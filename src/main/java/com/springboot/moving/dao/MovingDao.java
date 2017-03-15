@@ -14,8 +14,10 @@ import java.util.List;
 public class MovingDao extends BaseDao {
 
     public List<Moving> listMoving(int start,int size){
-        String jpql="from Moving limit start";
+        String jpql="from Moving";
         Query query = em.createQuery(jpql);
+        query.setMaxResults(size);
+        query.setFirstResult(start);
         return query.getResultList();
     }
 }
