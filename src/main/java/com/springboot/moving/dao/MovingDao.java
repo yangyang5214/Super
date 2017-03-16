@@ -14,7 +14,7 @@ import java.util.List;
 public class MovingDao extends BaseDao {
 
     public List<Moving> listMoving(int start,int size){
-        String jpql="from Moving";
+        String jpql="from Moving m order by m.creationTime desc ";
         Query query = em.createQuery(jpql);
         query.setMaxResults(size);
         query.setFirstResult(start);

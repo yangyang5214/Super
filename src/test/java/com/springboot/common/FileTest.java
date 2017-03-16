@@ -1,6 +1,7 @@
 package com.springboot.common;
 
 import com.springboot.Application;
+import com.springboot.common.util.FastDFSUtil;
 import com.springboot.moving.service.MovingService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,7 @@ public class FileTest {
     public void saveImageTest(){
         File file = new File("C:\\Users\\lixi2000\\Desktop\\521300e0a1904.jpg");
         try {
-            String imageUrl = movingService.saveImage(new FileInputStream(file));
+            String imageUrl = FastDFSUtil.saveImage(new FileInputStream(file));
             System.out.println(imageUrl);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

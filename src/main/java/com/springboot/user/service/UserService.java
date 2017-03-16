@@ -22,11 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +101,7 @@ public class UserService {
         return responseDto;
     }
 
-    public ResponseDto updataUserInfo(UserDto userDto){
+    public ResponseDto updataUserInfo(MultipartFile avatarFile,UserDto userDto){
         ResponseDto responseDto = new ResponseDto();
         if (StringUtil.isEmpty(userDto.getId().toString())){
             responseDto.setSuccess(Boolean.FALSE);
@@ -115,6 +113,13 @@ public class UserService {
             responseDto.setSuccess(Boolean.FALSE);
             responseDto.setMessage("不存在此用户！");
             return responseDto;
+        }
+        if (null != avatarFile) {
+            try {
+                user.setAvatarUrl(FastDFSUtil.saveImage(avatarFile.getInputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         user.setUniversityName(userDto.getUniversityName());
         user.setNickName(userDto.getNickName());

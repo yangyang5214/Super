@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * Created by zl on 2017/3/9.
  */
@@ -35,7 +37,8 @@ public class UserTest {
         userDto.setSex("男");
         userDto.setNickName("殃殃");
         userDto.setUniversityName("hlj");
-        Boolean isSuccess = userService.updataUserInfo(userDto).getSuccess();
+        MultipartFile multipartFile = null;
+        Boolean isSuccess = userService.updataUserInfo(multipartFile,userDto).getSuccess();
         System.out.println(isSuccess);
     }
 

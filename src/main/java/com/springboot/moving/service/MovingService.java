@@ -12,16 +12,14 @@ import com.springboot.moving.ws.dto.CommentDto;
 import com.springboot.moving.ws.dto.MovingDto;
 import com.springboot.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by zl on 2017/3/10.
@@ -33,22 +31,19 @@ public class MovingService {
     @Autowired
     private MovingDao movingDao;
 
-
-    @Value("${image.save.position:}")
-    private String imagePosition;
-
-    @Value("${image.url:}")
-    private String imageUrl;
-
     public ResponseDto publishMoving(MultipartFile file, MovingDto movingDto) {
         Moving moving = new Moving();
         if (null == file) {
-            moving.setContent(movingDto.getContent());
+            try {
+                moving.setContent(URLDecoder.decode(movingDto.getContent(), "utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             moving.setUser(movingDao.findById(User.class, movingDto.getUserId()));
             moving.setPosition(movingDto.getPosition());
         } else {
             try {
-                moving.setImageUrl(saveImage(file.getInputStream()));
+                moving.setImageUrl(FastDFSUtil.saveImage(file.getInputStream()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -57,25 +52,11 @@ public class MovingService {
         return new ResponseDto();
     }
 
-    public String saveImage(InputStream fileInputStream) {
-        String imgId = UUID.randomUUID().toString();
-        String fileName = imgId + ".png";
-        String filePath = imagePosition + "/" + fileName;
-        FastDFSUtil.savePic(fileInputStream, fileName, imagePosition);
-        double imageSize = new File(filePath).length()/1024.0/1024.0;
-        if (imageSize > 1){   //文件大于1M进行压缩
-            String zipFileName = imgId + "-1.png";
-            String zipFilePath = imagePosition + "/" + zipFileName;
-            FastDFSUtil.zipImageFile(filePath,zipFilePath,1000,1);
-            return imageUrl + zipFileName;
-        }
-        return imageUrl + fileName;
-    }
 
-    public ListResponseDto<MovingDto> listMoving(int offset,int size) {
+    public ListResponseDto<MovingDto> listMoving(int offset, int size) {
         ListResponseDto<MovingDto> listResponseDto = new ListResponseDto<>();
         List<MovingDto> listMovingDto = Lists.newArrayList();
-        List<Moving> listMoving = movingDao.listMoving((offset-1)*size,size);
+        List<Moving> listMoving = movingDao.listMoving((offset - 1) * size, size);
         listMoving.stream().forEach(p -> listMovingDto.add(formatMoving(p)));
         listResponseDto.setObjs(listMovingDto);
         return listResponseDto;
@@ -90,15 +71,15 @@ public class MovingService {
         movingDto.setImageUrl(moving.getImageUrl());
         movingDto.setPublishTime(String.valueOf(moving.getCreationTime()));
         movingDto.setPosition(moving.getPosition());
-        if(Collections3.isNotEmpty(moving.getCommentList())){
+        if (Collections3.isNotEmpty(moving.getCommentList())) {
             List<CommentDto> listComment = Lists.newArrayList();
-            moving.getCommentList().stream().forEach(p->listComment.add(formatComment(p)));
+            moving.getCommentList().stream().forEach(p -> listComment.add(formatComment(p)));
             movingDto.setListComment(listComment);
         }
         return movingDto;
     }
 
-    public  CommentDto  formatComment(Comment comment){
+    public CommentDto formatComment(Comment comment) {
         CommentDto commentDto = new CommentDto();
         commentDto.setContent(comment.getContent());
         commentDto.setCommentUserId(String.valueOf(comment.getCommentUser().getId()));
@@ -107,15 +88,18 @@ public class MovingService {
         return commentDto;
     }
 
-    public  ListResponseDto<Comment> publishComment(CommentDto commentDto){
-        ListResponseDto<Comment> listResponseDto = new ListResponseDto<>();
+    public ListResponseDto<CommentDto> publishComment(CommentDto commentDto) {
+        ListResponseDto<CommentDto> listResponseDto = new ListResponseDto<>();
         Comment comment = new Comment();
         comment.setContent(commentDto.getContent());
-        comment.setMoving(movingDao.findById(Moving.class,Long.parseLong(commentDto.getMovingId())));
-        comment.setCommentUser(movingDao.findById(User.class,Long.parseLong(commentDto.getCommentUserId())));
-        comment.setUnCommentUser(movingDao.findById(User.class,Long.parseLong(commentDto.getUnCommentUserId())));
+        comment.setMoving(movingDao.findById(Moving.class, Long.parseLong(commentDto.getMovingId())));
+        comment.setCommentUser(movingDao.findById(User.class, Long.parseLong(commentDto.getCommentUserId())));
+        comment.setUnCommentUser(movingDao.findById(User.class, Long.parseLong(commentDto.getUnCommentUserId())));
         movingDao.persist(comment);
-        listResponseDto.setObjs(movingDao.findById(Moving.class,Long.parseLong(commentDto.getMovingId())).getCommentList());
+        List<CommentDto> commentDtoList = Lists.newArrayList();
+        List<Comment> commentList = movingDao.findById(Moving.class, Long.parseLong(commentDto.getMovingId())).getCommentList();
+        commentList.stream().forEach(p ->commentDtoList.add(formatComment(p)));
+        listResponseDto.setObjs(commentDtoList);
         return listResponseDto;
     }
 

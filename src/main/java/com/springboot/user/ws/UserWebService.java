@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.Response;
@@ -38,8 +40,10 @@ public class UserWebService extends BaseWebService {
     }
 
     @RequestMapping(value = "/updata/userInfo",method = RequestMethod.POST)
-    public ResponseDto updataUserInfo(@NotNull UserDto userDto){
-        return userService.updataUserInfo(userDto);
+    public ResponseDto updataUserInfo(
+            @RequestParam("file") MultipartFile avatarFile,
+            @NotNull UserDto userDto){
+        return userService.updataUserInfo(avatarFile,userDto);
     }
 
     @RequestMapping(value = "/export/userInfo",method = RequestMethod.GET)

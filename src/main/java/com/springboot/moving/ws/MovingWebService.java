@@ -2,7 +2,6 @@ package com.springboot.moving.ws;
 
 import com.springboot.common.dto.ListResponseDto;
 import com.springboot.common.dto.ResponseDto;
-import com.springboot.moving.entity.Comment;
 import com.springboot.moving.service.MovingService;
 import com.springboot.moving.ws.dto.CommentDto;
 import com.springboot.moving.ws.dto.MovingDto;
@@ -41,7 +40,7 @@ public class MovingWebService {
     }
 
     @RequestMapping(value = "/publish/comment", method = RequestMethod.POST)
-    public ListResponseDto<Comment> publishComment(CommentDto commentDto) {
+    public ListResponseDto<CommentDto> publishComment(CommentDto commentDto) {
         return movingService.publishComment(commentDto);
     }
 }

@@ -11,16 +11,24 @@ import org.csource.fastdfs.TrackerClient;
 import org.csource.fastdfs.TrackerServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.UUID;
 
 
 @Component
 public class FastDFSUtil {
+
+    @Value("${image.save.position:}")
+    private static String imagePosition;
+
+    @Value("${image.url:}")
+    private static String imageUrl;
 
 
     private static Logger loggerFast = LoggerFactory.getLogger(FastDFSUtil.class);
@@ -205,6 +213,21 @@ public class FastDFSUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String saveImage(InputStream fileInputStream) {
+        String imgId = UUID.randomUUID().toString();
+        String fileName = imgId + ".png";
+        String filePath = imagePosition + "/" + fileName;
+        FastDFSUtil.savePic(fileInputStream, fileName, imagePosition);
+        double imageSize = new File(filePath).length()/1024.0/1024.0;
+        if (imageSize > 1){   //文件大于1M进行压缩
+            String zipFileName = imgId + "-1.png";
+            String zipFilePath = imagePosition + "/" + zipFileName;
+            FastDFSUtil.zipImageFile(filePath,zipFilePath,1000,1);
+            return imageUrl + zipFileName;
+        }
+        return imageUrl + fileName;
     }
 
 
