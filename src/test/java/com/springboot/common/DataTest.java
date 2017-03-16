@@ -26,6 +26,5 @@ public class DataTest {
         LocalDateTime localDateTime = LocalDateTime.now();
         System.out.println(localDateTime);
         System.out.println(localDateTime.toLocalDate()); //获取年月日  例：2013-05-03
-
     }
 }
