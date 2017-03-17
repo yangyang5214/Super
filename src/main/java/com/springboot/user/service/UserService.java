@@ -25,10 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -159,7 +156,8 @@ public class UserService {
 
 
     public InputStream exportUserMessage(){
-        TemplateExportParams params = new TemplateExportParams("export/用户信息导出格式.xls");
+        TemplateExportParams params = new TemplateExportParams("export/用户信息导出格式.xls",true);
+        params.setColForEach(true);
         Map<String, Object> maps = new HashMap<>();
         maps.put("user","APP");
         List<Object[]> listUserInfo = userDao.queryUserMessageForExport();
@@ -170,7 +168,7 @@ public class UserService {
             map.put("password",object[1].toString());
             mapsUserInfo.add(map);
         }
-        maps.put("maplist",mapsUserInfo);
+        maps.put("mapList",mapsUserInfo);
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         Workbook workbook = ExcelExportUtil.exportExcel(params, maps);
         try {
@@ -182,12 +180,12 @@ public class UserService {
     }
 
     public void exportToMailbox(String email){
-        FileInputStream fileInputStream = null;
+        InputStream fileInputStream = exportUserMessage();
         String excelPath = saveExcelFile(fileInputStream);
         List<String> listFilePath = Lists.newArrayList();
         listFilePath.add(excelPath);
         String subject = "大学生超级成长档案";
-        String msg  = "";
+        String msg  = "hello";
         emailUtil.sendEmail(email,subject,msg,listFilePath);
     }
 

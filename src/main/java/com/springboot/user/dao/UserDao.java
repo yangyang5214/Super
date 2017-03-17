@@ -1,7 +1,7 @@
 package com.springboot.user.dao;
 
 import com.springboot.common.dao.BaseDao;
-import com.springboot.user.ws.dto.RegisterDto;
+import com.springboot.user.ws.dto.UserDto;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;

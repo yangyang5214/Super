@@ -50,4 +50,12 @@ public class UserTest {
         Boolean isSuccess =  userService.login(registerDto).getSuccess();
     }
 
+    @Test
+    public void exportToMailbox(){
+        userService.exportToMailbox("1679937491@qq.com");
+    }
+
+
+
+
 }
