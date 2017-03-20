@@ -34,8 +34,7 @@ public class MovingWebService {
     @RequestMapping(value = "/allMoving", method = RequestMethod.POST)
     public ListResponseDto<MovingDto> listMoving(
             @RequestParam("size") int size,
-            @RequestParam("offset") int offset
-    ) {
+            @RequestParam("offset") int offset) {
         return movingService.listMoving(offset, size);
     }
 
