@@ -27,15 +27,17 @@ public class MovingTest {
     public void  publishMovingTest(){
         File file = new File("C:\\Users\\lixi2000\\Desktop\\timg.jpg");
         MovingDto movingDto = new MovingDto();
-        movingDto.setContent("qqq");
-        movingDto.setPosition("shanghai");
+        movingDto.setUserId(1 + "");
+        movingDto.setContent("使用hibernate的e-r映射pojo类的时候遇到org.hibernate.AnnotationException: No identifier specified");
+        movingDto.setPosition("beijing");
+        movingDto.setMovingType(0);
         MultipartFile multipartFile = null;
         movingService.publishMoving(multipartFile,movingDto);
     }
 
     @Test
     public  void listMoving(){
-        movingService.listMoving(1,2);
+        movingService.listMoving(1,5);
     }
 
     @Test

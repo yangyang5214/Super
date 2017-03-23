@@ -36,6 +36,20 @@ public class Moving extends AggregateRoot {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "moving",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = Lists.newArrayList();
 
+    /**
+     * type  0:动态 1：活动
+     */
+    @Column(name = "TYPE")
+    private Integer type;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     public List<Comment> getCommentList() {
         return commentList;
     }

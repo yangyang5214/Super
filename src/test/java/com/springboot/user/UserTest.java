@@ -25,8 +25,8 @@ public class UserTest {
     @Test
     public void registerTest(){
         RegisterDto registerDto = new RegisterDto();
-        registerDto.setUsername("13936754904");
-        registerDto.setPassword("yangyang5214");
+        registerDto.setUsername("18345968280");
+        registerDto.setPassword("111111");
         Boolean isSuccess =  userService.register(registerDto).getSuccess();
         System.out.println(isSuccess);
     }

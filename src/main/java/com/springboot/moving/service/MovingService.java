@@ -39,8 +39,9 @@ public class MovingService {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            moving.setUser(movingDao.findById(User.class, movingDto.getUserId()));
+            moving.setUser(movingDao.findById(User.class, Long.parseLong(movingDto.getUserId())));
             moving.setPosition(movingDto.getPosition());
+            moving.setType(movingDto.getMovingType());
         } else {
             try {
                 moving.setImageUrl(FastDFSUtil.saveImage(file.getInputStream()));
