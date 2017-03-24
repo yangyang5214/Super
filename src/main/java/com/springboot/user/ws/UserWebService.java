@@ -48,4 +48,10 @@ public class UserWebService extends BaseWebService {
         userService.exportToMailbox(email);
         return new ResponseDto();
     }
+
+
+    @RequestMapping(value = "/record/login",method = RequestMethod.GET)
+    public ResponseDto recordLogin(String username,String password){
+        return userService.recordLogin(username,password);
+    }
 }

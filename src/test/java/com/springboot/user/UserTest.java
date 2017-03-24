@@ -51,6 +51,11 @@ public class UserTest {
     }
 
     @Test
+    public void recordLoginTest(){
+        userService.recordLogin("13936754904","yangyang5214");
+    }
+
+    @Test
     public void exportToMailbox(){
         userService.exportToMailbox("1679937491@qq.com");
     }

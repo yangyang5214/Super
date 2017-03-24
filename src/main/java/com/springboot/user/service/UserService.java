@@ -90,12 +90,32 @@ public class UserService {
             responseDto.setMessage("用户名或密码错误！");
             return responseDto;
         }
-//        StoredUser storedUser = new StoredUser();
-//        storedUser.setActive(Boolean.TRUE);
-//        storedUser.setId(user.getId());
-//        storedUser.setName(user.getUsername());
         responseDto.setObj(new UserDto(user));
         return responseDto;
+    }
+
+    public ResponseDto recordLogin(String username, String password) {
+        ResponseDto responseDto = new ResponseDto();
+        User user = baseDao.find(User.class,"USERNAME",username);
+        if (isNull(user)){
+            responseDto.setSuccess(Boolean.FALSE);
+            responseDto.setMessage("用户未注册！");
+            return responseDto;
+        }
+        if (!user.getPassword().equals(password)){
+            responseDto.setSuccess(Boolean.FALSE);
+            responseDto.setMessage("用户名或密码错误！");
+            return responseDto;
+        }
+        responseDto.setObj(formatUserDto(user));
+        return responseDto;
+    }
+
+
+    public UserDto formatUserDto(User user){
+        UserDto userDto = new UserDto();
+        userDto.setNickName(user.getNickName());
+        return userDto;
     }
 
     public ResponseDto updataUserInfo(MultipartFile avatarFile,UserDto userDto){
@@ -196,6 +216,7 @@ public class UserService {
         FastDFSUtil.savePic(fileInputStream, fileName, excelPosition);
         return path;
     }
+
 
 
 }
