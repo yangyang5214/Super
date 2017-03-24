@@ -99,12 +99,12 @@ public class UserService {
         User user = baseDao.find(User.class,"USERNAME",username);
         if (isNull(user)){
             responseDto.setSuccess(Boolean.FALSE);
-            responseDto.setMessage("用户未注册！");
+            responseDto.setMessage("学号输入有误！");
             return responseDto;
         }
         if (!user.getPassword().equals(password)){
             responseDto.setSuccess(Boolean.FALSE);
-            responseDto.setMessage("用户名或密码错误！");
+            responseDto.setMessage("学号或密码错误！");
             return responseDto;
         }
         responseDto.setObj(formatUserDto(user));
