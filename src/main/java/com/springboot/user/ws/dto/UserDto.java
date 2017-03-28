@@ -15,6 +15,15 @@ public class UserDto {
 
     private String area;
     private String universityName;
+    private String identityCardAddress;
+
+    public String getIdentityCardAddress() {
+        return identityCardAddress;
+    }
+
+    public void setIdentityCardAddress(String identityCardAddress) {
+        this.identityCardAddress = identityCardAddress;
+    }
 
     public UserDto() {
 

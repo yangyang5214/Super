@@ -16,8 +16,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.entity.TemplateExportParams;
+import org.jeecgframework.poi.word.WordExportUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -201,7 +203,7 @@ public class UserService {
 
     public void exportToMailbox(String email){
         InputStream fileInputStream = exportUserMessage();
-        String excelPath = saveExcelFile(fileInputStream);
+        String excelPath = savefile(fileInputStream,"xls","");
         List<String> listFilePath = Lists.newArrayList();
         listFilePath.add(excelPath);
         String subject = "大学生超级成长档案";
@@ -209,12 +211,39 @@ public class UserService {
         emailUtil.sendEmail(email,subject,msg,listFilePath);
     }
 
-    public String saveExcelFile(InputStream fileInputStream) {
+    public String savefile(InputStream fileInputStream,String fileType,String name) {
         String imgId = UUID.randomUUID().toString();
-        String fileName = imgId + ".xls";
+        String fileName = name + "—" + imgId.substring(0,10) + "." + fileType;
         String path = excelPosition + "/" + fileName;
         FastDFSUtil.savePic(fileInputStream, fileName, excelPosition);
         return path;
+    }
+
+    public void exportResume(){
+        Map<String, Object> map = buildData();
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            XWPFDocument document = WordExportUtil.exportWord07("export/resume/简历-计算机-001.docx", map);
+            document.write(output);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        InputStream inputStream = new ByteArrayInputStream(output.toByteArray());
+        String filePath =  savefile(inputStream,"docx","简历");
+        List<String> listFilePath = Lists.newArrayList();
+        listFilePath.add(filePath);
+        String subject = "简历";
+        String msg  = "hello";
+        emailUtil.sendEmail("",subject,msg,listFilePath);
+    }
+
+    private Map<String, Object> buildData() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name","zhangzhiyuan");
+        map.put("company","qwer");
+        map.put("school","hlj");
+        map.put("sex","men");
+        return map;
     }
 
 

@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.ws.Response;
+
 /**
  * Created by zl on 2017/3/9.
  */
@@ -59,6 +61,13 @@ public class UserTest {
     public void exportToMailbox(){
         userService.exportToMailbox("1679937491@qq.com");
     }
+
+    @Test
+    public void exportResumeTest(){
+        userService.exportResume();
+    }
+
+
 
 
 

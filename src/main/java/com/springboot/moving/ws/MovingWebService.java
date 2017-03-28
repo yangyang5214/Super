@@ -42,4 +42,6 @@ public class MovingWebService {
     public ListResponseDto<CommentDto> publishComment(CommentDto commentDto) {
         return movingService.publishComment(commentDto);
     }
+
+
 }

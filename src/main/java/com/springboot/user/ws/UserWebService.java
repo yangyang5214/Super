@@ -54,4 +54,11 @@ public class UserWebService extends BaseWebService {
     public ResponseDto recordLogin(String username,String password){
         return userService.recordLogin(username,password);
     }
+
+
+    @RequestMapping(value = "/send/resume",method = RequestMethod.POST)
+    public ResponseDto recordLogin(){
+         userService.exportResume();
+         return new ResponseDto();
+    }
 }

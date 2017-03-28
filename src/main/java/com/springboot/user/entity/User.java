@@ -41,6 +41,18 @@ public class User extends AggregateRoot{
     @Column(name = "AVATARURL")
     private String avatarUrl; //头像
 
+
+    @Column(name = "IDENTITYCARD_ADDRESS")
+    private String identityCardAddress; //详细地址
+
+    public String getIdentityCardAddress() {
+        return identityCardAddress;
+    }
+
+    public void setIdentityCardAddress(String identityCardAddress) {
+        this.identityCardAddress = identityCardAddress;
+    }
+
     public String getArea() {
         return area;
     }
