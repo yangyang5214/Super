@@ -26,8 +26,8 @@ public class MovingWebService {
 
     @RequestMapping(value = "/publish", method = RequestMethod.POST)
     public ResponseDto publishMoving(
-            MultipartFile file,
-            MovingDto movingDto) {
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("moving") MovingDto movingDto) {
         return movingService.publishMoving(file, movingDto);
     }
 
