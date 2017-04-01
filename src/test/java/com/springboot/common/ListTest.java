@@ -54,6 +54,5 @@ public class ListTest {
         Set<String> set = new HashSet<>();
         set.addAll(list2);
         System.out.println(set);
-
     }
 }
