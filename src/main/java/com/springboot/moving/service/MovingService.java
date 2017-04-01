@@ -31,7 +31,11 @@ public class MovingService {
     @Autowired
     private MovingDao movingDao;
 
-    public ResponseDto publishMoving(MultipartFile file, MovingDto movingDto) {
+    public ResponseDto publishMoving(MultipartFile file) {
+        MovingDto movingDto = new MovingDto();
+        movingDto.setContent("11");
+        movingDto.setMovingType(1);
+        movingDto.setPosition("11");
         Moving moving = new Moving();
         if (null == file) {
             try {

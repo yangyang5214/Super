@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Administrator on 2017/3/11.
@@ -26,9 +29,8 @@ public class MovingWebService {
 
     @RequestMapping(value = "/publish", method = RequestMethod.POST)
     public ResponseDto publishMoving(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("moving") MovingDto movingDto) {
-        return movingService.publishMoving(file, movingDto);
+            @RequestParam("file") MultipartFile file) {
+        return movingService.publishMoving(file);
     }
 
     @RequestMapping(value = "/allMoving", method = RequestMethod.POST)

@@ -32,7 +32,7 @@ public class MovingTest {
         movingDto.setPosition("beijing");
         movingDto.setMovingType(0);
         MultipartFile multipartFile = null;
-        movingService.publishMoving(multipartFile,movingDto);
+        movingService.publishMoving(multipartFile);
     }
 
     @Test
