@@ -23,11 +23,15 @@ public class FileTest {
     @Autowired
     private MovingService movingService;
 
+
+    @Autowired
+    private FastDFSUtil fastDFSUtil;
+
     @Test
     public void saveImageTest(){
         File file = new File("C:\\Users\\lixi2000\\Desktop\\521300e0a1904.jpg");
         try {
-            String imageUrl = FastDFSUtil.saveImage(new FileInputStream(file));
+            String imageUrl = fastDFSUtil.saveImage(new FileInputStream(file));
             System.out.println(imageUrl);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

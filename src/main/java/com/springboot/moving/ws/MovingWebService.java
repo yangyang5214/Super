@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Administrator on 2017/3/11.
@@ -29,8 +30,13 @@ public class MovingWebService {
 
     @RequestMapping(value = "/publish", method = RequestMethod.POST)
     public ResponseDto publishMoving(
-            @RequestParam("file") MultipartFile file) {
-        return movingService.publishMoving(file);
+            MultipartFile file) {
+        try {
+            return movingService.publishMoving(file);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @RequestMapping(value = "/allMoving", method = RequestMethod.POST)

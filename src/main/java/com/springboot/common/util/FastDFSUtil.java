@@ -25,10 +25,10 @@ import java.util.UUID;
 public class FastDFSUtil {
 
     @Value("${image.save.position:}")
-    private static String imagePosition;
+    private String imagePosition;
 
     @Value("${image.url:}")
-    private static String imageUrl;
+    private String imageUrl;
 
 
     private static Logger loggerFast = LoggerFactory.getLogger(FastDFSUtil.class);
@@ -215,7 +215,7 @@ public class FastDFSUtil {
         }
     }
 
-    public static String saveImage(InputStream fileInputStream) {
+    public String saveImage(InputStream fileInputStream) {
         String imgId = UUID.randomUUID().toString();
         String fileName = imgId + ".png";
         String filePath = imagePosition + "/" + fileName;

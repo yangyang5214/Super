@@ -31,28 +31,27 @@ public class MovingService {
     @Autowired
     private MovingDao movingDao;
 
-    public ResponseDto publishMoving(MultipartFile file) {
+    @Autowired
+    private FastDFSUtil fastDFSUtil;
+
+    public ResponseDto publishMoving(MultipartFile file) throws UnsupportedEncodingException {
         MovingDto movingDto = new MovingDto();
         movingDto.setContent("11");
         movingDto.setMovingType(1);
         movingDto.setPosition("11");
+        movingDto.setUserId("1");
         Moving moving = new Moving();
-        if (null == file) {
+        if (null != file) {
             try {
-                moving.setContent(URLDecoder.decode(movingDto.getContent(), "utf-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            moving.setUser(movingDao.findById(User.class, Long.parseLong(movingDto.getUserId())));
-            moving.setPosition(movingDto.getPosition());
-            moving.setType(movingDto.getMovingType());
-        } else {
-            try {
-                moving.setImageUrl(FastDFSUtil.saveImage(file.getInputStream()));
+                moving.setImageUrl(fastDFSUtil.saveImage(file.getInputStream()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        moving.setContent(URLDecoder.decode(movingDto.getContent(), "utf-8"));
+        moving.setUser(movingDao.findById(User.class, Long.parseLong(movingDto.getUserId())));
+        moving.setPosition(movingDto.getPosition());
+        moving.setType(movingDto.getMovingType());
         movingDao.persist(moving);
         return new ResponseDto();
     }

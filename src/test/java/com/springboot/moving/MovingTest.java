@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -32,7 +33,11 @@ public class MovingTest {
         movingDto.setPosition("beijing");
         movingDto.setMovingType(0);
         MultipartFile multipartFile = null;
-        movingService.publishMoving(multipartFile);
+        try {
+            movingService.publishMoving(multipartFile);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

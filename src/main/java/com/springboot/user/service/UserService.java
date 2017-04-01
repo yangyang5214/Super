@@ -55,6 +55,12 @@ public class UserService {
     @Autowired
     public EmailUtil emailUtil;
 
+    @Autowired
+    public FastDFSUtil fastDFSUtil;
+
+
+
+
    public ResponseDto register(RegisterDto registerDto){
        ResponseDto responseDto = new ResponseDto();
        User user = baseDao.find(User.class,"USERNAME",registerDto.getUsername());
@@ -135,7 +141,7 @@ public class UserService {
         }
         if (null != avatarFile) {
             try {
-                user.setAvatarUrl(FastDFSUtil.saveImage(avatarFile.getInputStream()));
+                user.setAvatarUrl(fastDFSUtil.saveImage(avatarFile.getInputStream()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
