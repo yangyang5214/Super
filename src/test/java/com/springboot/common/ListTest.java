@@ -55,4 +55,38 @@ public class ListTest {
         set.addAll(list2);
         System.out.println(set);
     }
+
+    @Test
+    public void cycleTest(){
+        ok:
+        for(int i=0;i<10;i++) {
+            for(int j=0;j<10;j++) {
+                System.out.println(i + j);
+                if(j == 5) break ok;
+            }
+        }
+
+        boolean  found = false;
+        for(int i=0;i<10 && !found;i++) {
+            for(int j=0;j<10;j++) {
+                System.out.println(i + j);
+                if (j==5){
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        char c = '你';
+        System.out.println(c);
+
+        System.out.println(2<<3);
+        System.out.println(8>>2);
+    }
+
+    @Test
+    public  void finalTest(){
+         final StringBuffer  stringBuffer=  new StringBuffer("10");
+         stringBuffer.append("111");
+    }
 }
