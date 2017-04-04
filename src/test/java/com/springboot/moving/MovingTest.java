@@ -31,7 +31,7 @@ public class MovingTest {
         movingDto.setUserId(1 + "");
         movingDto.setContent("使用hibernate的e-r映射pojo类的时候遇到org.hibernate.AnnotationException: No identifier specified");
         movingDto.setPosition("beijing");
-        movingDto.setMovingType(0);
+//        movingDto.setMovingType(0);
         MultipartFile multipartFile = null;
 //        try {
 //            movingService.publishMoving(multipartFile);
