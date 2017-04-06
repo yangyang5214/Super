@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/11.
@@ -30,7 +31,7 @@ public class MovingWebService {
 
     @RequestMapping(value = "/publish", method = RequestMethod.POST)
     public ResponseDto publishMoving(
-            MultipartFile file) {
+            List<MultipartFile> file) {
         try {
             return movingService.publishMoving(file);
         } catch (UnsupportedEncodingException e) {

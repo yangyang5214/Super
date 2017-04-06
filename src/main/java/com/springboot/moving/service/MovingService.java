@@ -34,7 +34,7 @@ public class MovingService {
     @Autowired
     private FastDFSUtil fastDFSUtil;
 
-    public ResponseDto publishMoving(MultipartFile file) throws UnsupportedEncodingException {
+    public ResponseDto publishMoving(List<MultipartFile> file) throws UnsupportedEncodingException {
         MovingDto movingDto = new MovingDto();
         movingDto.setContent("11");
         movingDto.setMovingType(1);
@@ -43,7 +43,7 @@ public class MovingService {
         Moving moving = new Moving();
         if (null != file) {
             try {
-                moving.setImageUrl(fastDFSUtil.saveImage(file.getInputStream()));
+                moving.setImageUrl(fastDFSUtil.saveImage(file.get(0).getInputStream()));
             } catch (IOException e) {
                 e.printStackTrace();
             }

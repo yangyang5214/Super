@@ -33,11 +33,11 @@ public class MovingTest {
         movingDto.setPosition("beijing");
         movingDto.setMovingType(0);
         MultipartFile multipartFile = null;
-        try {
-            movingService.publishMoving(multipartFile);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            movingService.publishMoving(multipartFile);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Test
