@@ -67,6 +67,11 @@ public class UserTest {
         userService.exportResume();
     }
 
+    @Test
+    public void registerByEmail(){
+        userService.registerForCode("qwff","2174211287@qq.com");
+    }
+
 
 
 

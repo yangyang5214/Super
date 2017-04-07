@@ -26,9 +26,9 @@ public class UserWebService extends BaseWebService {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public ResponseDto register(@NotNull RegisterDto registerDto){
-        return userService.register(registerDto);
+    @RequestMapping(value = "/register",method = RequestMethod.GET)
+    public ResponseDto register(String username,String password){
+        return userService.register(username,password);
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
@@ -54,6 +54,13 @@ public class UserWebService extends BaseWebService {
     public ResponseDto recordLogin(String username,String password){
         return userService.recordLogin(username,password);
     }
+
+    @RequestMapping(value = "/register/code/",method = RequestMethod.GET)
+    public ResponseDto registerForCode(String code,String email){
+        return userService.registerForCode(code,email);
+    }
+
+
 
 
     @RequestMapping(value = "/send/resume",method = RequestMethod.POST)

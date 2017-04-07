@@ -28,4 +28,6 @@ public class EmailTest {
         filePathList.add("D:\\temp\\haikou\\0a35fb22-a70e-4436-bb3d-3dc8f1c4cb40.xls");
         emailUtil.sendEmail("1679937491@qq.com", "通知", "hello",filePathList);
     }
+
+
 }

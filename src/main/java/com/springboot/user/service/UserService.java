@@ -61,17 +61,17 @@ public class UserService {
 
 
 
-   public ResponseDto register(RegisterDto registerDto){
+   public ResponseDto register(String  username,String password){
        ResponseDto responseDto = new ResponseDto();
-       User user = baseDao.find(User.class,"USERNAME",registerDto.getUsername());
+       User user = baseDao.find(User.class,"USERNAME",username);
        if (nonNull(user)){
            responseDto.setSuccess(Boolean.FALSE);
            responseDto.setMessage("用户已存在！");
            return responseDto;
        }
        user = new User();
-       user.setUsername(registerDto.getUsername());
-       user.setPassword(registerDto.getPassword());
+       user.setUsername(username);
+       user.setPassword(password);
        user.setAvatarUrl(avatarUrl);
        String nickName= RandomStringUtils.randomAlphanumeric(6);
        user.setNickName(nickName);
@@ -178,7 +178,7 @@ public class UserService {
                 }
             }
         }
-        userPoiDtoList.stream().forEach(p->register(new RegisterDto(p)));
+        userPoiDtoList.stream().forEach(p->register(p.getUsername(),p.getPassword()));
         return new ResponseDto();
     }
 
@@ -215,6 +215,20 @@ public class UserService {
         String subject = "大学生超级成长档案";
         String msg  = "hello";
         emailUtil.sendEmail(email,subject,msg,listFilePath);
+    }
+
+    public ResponseDto registerForCode(String code,String email){
+        String registerMsg = "验证码为" + code;
+        String registerSubject = "八一农大App验证码";
+        emailUtil.sendEmail(email,registerSubject,registerMsg,null);
+        return  new ResponseDto();
+    }
+
+    public ResponseDto registerByEmail(String code,String email){
+        String registerMsg = "验证码为" + code;
+        String registerSubject = "八一农大App验证码";
+        emailUtil.sendEmail(email,registerSubject,registerMsg,null);
+        return  new ResponseDto();
     }
 
     public String savefile(InputStream fileInputStream,String fileType,String name) {
