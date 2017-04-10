@@ -29,8 +29,8 @@ public class UserTest {
         RegisterDto registerDto = new RegisterDto();
         registerDto.setUsername("18345968280");
         registerDto.setPassword("111111");
-        Boolean isSuccess =  userService.register(registerDto).getSuccess();
-        System.out.println(isSuccess);
+//        Boolean isSuccess =  userService.register(registerDto).getSuccess();
+//        System.out.println(isSuccess);
     }
     @Test
     public void updataUserInfoTest(){

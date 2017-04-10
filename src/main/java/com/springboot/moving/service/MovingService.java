@@ -41,17 +41,17 @@ public class MovingService {
         movingDto.setPosition("11");
         movingDto.setUserId("1");
         Moving moving = new Moving();
-        if (null != file) {
-            try {
-                moving.setImageUrl(fastDFSUtil.saveImage(file.get(0).getInputStream()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (null != file) {
+//            try {
+//                moving.setImageUrls(fastDFSUtil.saveImage(file.get(0).getInputStream()));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
         moving.setContent(URLDecoder.decode(movingDto.getContent(), "utf-8"));
         moving.setUser(movingDao.findById(User.class, Long.parseLong(movingDto.getUserId())));
         moving.setPosition(movingDto.getPosition());
-        moving.setType(movingDto.getMovingType());
+//        moving.setType(movingDto.getMovingType());
         movingDao.persist(moving);
         return new ResponseDto();
     }
@@ -72,7 +72,7 @@ public class MovingService {
         movingDto.setUserId(String.valueOf(moving.getUser().getId()));
         movingDto.setUserName(moving.getUser().getUsername());
         movingDto.setContent(moving.getContent());
-        movingDto.setImageUrl(moving.getImageUrl());
+//        movingDto.setImageUrl(moving.getImageUrl());
         movingDto.setPublishTime(String.valueOf(moving.getCreationTime()));
         movingDto.setPosition(moving.getPosition());
         if (Collections3.isNotEmpty(moving.getCommentList())) {
