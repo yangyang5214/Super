@@ -40,10 +40,8 @@ public class MovingWebService {
         return null;
     }
 
-    @RequestMapping(value = "moving/allMoving", method = RequestMethod.POST)
-    public ListResponseDto<MovingDto> listMoving(
-            @RequestParam("size") int size,
-            @RequestParam("offset") int offset) {
+    @RequestMapping(value = "moving/allMoving", method = RequestMethod.GET)
+    public ListResponseDto<MovingDto> listMoving(int size,int offset) {
         return movingService.listMoving(offset, size);
     }
 
@@ -52,10 +50,8 @@ public class MovingWebService {
         return movingService.publishComment(commentDto);
     }
 
-    @RequestMapping(value = "beauty/allBeauty", method = RequestMethod.POST)
-    public ListResponseDto<BeautyDto> publishComment(
-            @RequestParam("size") int size,
-            @RequestParam("offset") int offset) {
+    @RequestMapping(value = "beauty/allBeauty", method = RequestMethod.GET)
+    public ListResponseDto<BeautyDto> publishComment(int size,int offset) {
         return movingService.listBeauty(offset, size);
     }
 

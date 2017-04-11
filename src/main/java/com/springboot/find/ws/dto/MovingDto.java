@@ -11,7 +11,7 @@ public class MovingDto {
 
     private String content;
     private String position;
-    private String imageUrl;
+    private List<String> imageUrl = Lists.newArrayList();
     private String publishTime;
 
     private String userId;
@@ -19,6 +19,9 @@ public class MovingDto {
     private String avatarUrl;//头像
 
     private Integer movingType;
+
+    public MovingDto() {
+    }
 
     public int getMovingType() {
         return movingType;
@@ -66,11 +69,11 @@ public class MovingDto {
         return content;
     }
 
-    public String getImageUrl() {
+    public List<String> getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImageUrl(List<String> imageUrl) {
         this.imageUrl = imageUrl;
     }
 

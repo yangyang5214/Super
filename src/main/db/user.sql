@@ -1,2 +1,2 @@
-INSERT USER (username,nickname,password,avatarurl) VALUE ('1679937491@qq.com','爬爬','123','10.134.240.88:8090/image/default.jpg');
-INSERT USER (username,nickname,password,avatarurl) VALUE ('2174211287@qq.com','丫丫','123','10.134.240.88:8090/image/default.jpg');
+INSERT USER (username,nickname,password,avatarurl) VALUE ('1679937491@qq.com','爬爬','123','/image/default.jpg');
+INSERT USER (username,nickname,password,avatarurl) VALUE ('2174211287@qq.com','丫丫','123','/image/default.jpg');

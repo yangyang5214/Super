@@ -41,12 +41,12 @@ public class MovingTest {
 
     @Test
     public  void listMovingTest(){
-        movingService.listMoving(1,5);
+        movingService.listMoving(1,20);
     }
 
     @Test
     public  void listBeautyTest(){
-        movingService.listBeauty(1,5);
+        movingService.listBeauty(1,20);
     }
 
     @Test

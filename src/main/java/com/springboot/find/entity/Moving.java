@@ -22,8 +22,8 @@ public class Moving extends AggregateRoot {
     @Column(name = "CONTENT")
     private String content;
 
-    @Column(name = "IMAGEURLS")
-    private String imageUrls;
+    @Column(name = "IMAGEURL")
+    private String imageUrl;
 
     @Column(name = "POSITION")
     private String position;
@@ -41,12 +41,12 @@ public class Moving extends AggregateRoot {
     }
 
 
-    public String getImageUrls() {
-        return imageUrls;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageUrls(String imageUrls) {
-        this.imageUrls = imageUrls;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void setCommentList(List<Comment> commentList) {

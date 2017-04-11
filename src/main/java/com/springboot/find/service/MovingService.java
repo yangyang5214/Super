@@ -5,6 +5,7 @@ import com.springboot.common.dto.ListResponseDto;
 import com.springboot.common.dto.ResponseDto;
 import com.springboot.common.util.Collections3;
 import com.springboot.common.util.FastDFSUtil;
+import com.springboot.common.util.StringUtil;
 import com.springboot.find.dao.MovingDao;
 import com.springboot.find.entity.Beauty;
 import com.springboot.find.entity.Comment;
@@ -14,6 +15,7 @@ import com.springboot.find.entity.Moving;
 import com.springboot.find.ws.dto.MovingDto;
 import com.springboot.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,6 +32,9 @@ import java.util.List;
 @Service
 @Transactional
 public class MovingService {
+
+    @Value("${ip:}")
+    private String ip;
 
     @Autowired
     private MovingDao movingDao;
@@ -51,7 +57,7 @@ public class MovingService {
                     imageUrls.append(",");
                 }
                 String imageUrl = imageUrls.toString();
-                moving.setImageUrls(imageUrl.substring(0,imageUrl.length()-1));
+                moving.setImageUrl(imageUrl.substring(0,imageUrl.length()-1));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -85,7 +91,7 @@ public class MovingService {
     public BeautyDto formatBeauty(Beauty beauty) {
         BeautyDto BeautyDto = new BeautyDto();
         BeautyDto.setContent(beauty.getContent());
-        BeautyDto.setImageUrl(beauty.getImageUrl());
+        BeautyDto.setImageUrl(ip + beauty.getImageUrl());
         BeautyDto.setPublishTime(beauty.getCreationTime().toString());
         BeautyDto.setAvatarUrl(beauty.getUser().getAvatarUrl());
         BeautyDto.setUserId(String.valueOf(beauty.getUser().getId()));
@@ -99,7 +105,10 @@ public class MovingService {
         movingDto.setUserId(String.valueOf(moving.getUser().getId()));
         movingDto.setUserName(moving.getUser().getUsername());
         movingDto.setContent(moving.getContent());
-        movingDto.setImageUrl(moving.getImageUrls());
+        if (StringUtil.isNotEmpty(moving.getImageUrl())){
+            List<String> imageUrl = Arrays.asList(moving.getImageUrl().split(","));
+            movingDto.setImageUrl(imageUrl);
+        }
         movingDto.setPublishTime(String.valueOf(moving.getCreationTime()));
         movingDto.setPosition(moving.getPosition());
         if (Collections3.isNotEmpty(moving.getCommentList())) {

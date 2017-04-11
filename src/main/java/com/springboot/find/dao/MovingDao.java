@@ -23,7 +23,7 @@ public class MovingDao extends BaseDao {
     }
 
     public List<Beauty> listBeauty(int start, int size){
-        String jpql="select m from Moving m order by m.creationTime desc ";
+        String jpql="select b from Beauty b order by b.creationTime desc ";
         Query query = em.createQuery(jpql);
         query.setMaxResults(size);
         query.setFirstResult(start);
