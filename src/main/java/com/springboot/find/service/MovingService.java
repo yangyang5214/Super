@@ -1,15 +1,16 @@
-package com.springboot.moving.service;
+package com.springboot.find.service;
 
 import com.google.common.collect.Lists;
 import com.springboot.common.dto.ListResponseDto;
 import com.springboot.common.dto.ResponseDto;
 import com.springboot.common.util.Collections3;
 import com.springboot.common.util.FastDFSUtil;
-import com.springboot.moving.dao.MovingDao;
-import com.springboot.moving.entity.Comment;
-import com.springboot.moving.entity.Moving;
-import com.springboot.moving.ws.dto.CommentDto;
-import com.springboot.moving.ws.dto.MovingDto;
+import com.springboot.find.dao.MovingDao;
+import com.springboot.find.entity.Comment;
+import com.springboot.find.ws.dto.CommentDto;
+import com.springboot.find.entity.Image;
+import com.springboot.find.entity.Moving;
+import com.springboot.find.ws.dto.MovingDto;
 import com.springboot.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,17 +42,23 @@ public class MovingService {
         movingDto.setPosition("11");
         movingDto.setUserId("1");
         Moving moving = new Moving();
-//        if (null != file) {
-//            try {
-//                moving.setImageUrls(fastDFSUtil.saveImage(file.get(0).getInputStream()));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        if (null != file) {
+            List<Image> imageList = Lists.newArrayList();
+            try {
+                for (int i = 0; i < file.size(); i++) {
+                    Image image = new Image();
+                    image.setUrl(fastDFSUtil.saveImage(file.get(i).getInputStream()));
+                    movingDao.persist(image);
+                    imageList.add(image);
+                }
+                moving.setImageUrls(imageList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         moving.setContent(URLDecoder.decode(movingDto.getContent(), "utf-8"));
         moving.setUser(movingDao.findById(User.class, Long.parseLong(movingDto.getUserId())));
         moving.setPosition(movingDto.getPosition());
-//        moving.setType(movingDto.getMovingType());
         movingDao.persist(moving);
         return new ResponseDto();
     }
@@ -102,7 +109,7 @@ public class MovingService {
         movingDao.persist(comment);
         List<CommentDto> commentDtoList = Lists.newArrayList();
         List<Comment> commentList = movingDao.findById(Moving.class, Long.parseLong(commentDto.getMovingId())).getCommentList();
-        commentList.stream().forEach(p ->commentDtoList.add(formatComment(p)));
+        commentList.stream().forEach(p -> commentDtoList.add(formatComment(p)));
         listResponseDto.setObjs(commentDtoList);
         return listResponseDto;
     }

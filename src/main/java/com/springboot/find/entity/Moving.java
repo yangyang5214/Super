@@ -1,4 +1,4 @@
-package com.springboot.moving.entity;
+package com.springboot.find.entity;
 
 import com.google.common.collect.Lists;
 import com.springboot.common.entity.AggregateRoot;

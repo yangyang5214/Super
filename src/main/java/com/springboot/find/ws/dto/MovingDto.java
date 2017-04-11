@@ -1,4 +1,4 @@
-package com.springboot.moving.ws.dto;
+package com.springboot.find.ws.dto;
 
 import com.google.common.collect.Lists;
 

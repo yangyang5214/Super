@@ -2,7 +2,7 @@ package com.springboot.common;
 
 import com.springboot.Application;
 import com.springboot.common.util.FastDFSUtil;
-import com.springboot.moving.service.MovingService;
+import com.springboot.find.service.MovingService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

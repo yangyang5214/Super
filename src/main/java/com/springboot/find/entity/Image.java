@@ -1,13 +1,16 @@
-package com.springboot.moving.entity;
+package com.springboot.find.entity;
+
+import com.springboot.common.entity.AggregateComponent;
+import com.springboot.common.entity.AggregateRoot;
 
 import javax.persistence.*;
 
 /**
- * Created by Administrator on 2017/4/10.
+ * Created by wangxiaosan on 2017/4/7.
  */
 @Entity
 @Table(name = "IMAGE")
-public class Image {
+public class Image extends AggregateRoot {
 
     @Id
     @GeneratedValue()
@@ -15,8 +18,7 @@ public class Image {
     private long id;
 
     @Column(name = "URL")
-    private String url; // 图片url
-
+    private String url;
 
     public long getId() {
         return id;
@@ -33,5 +35,4 @@ public class Image {
     public void setUrl(String url) {
         this.url = url;
     }
-
 }

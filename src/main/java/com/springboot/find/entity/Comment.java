@@ -1,4 +1,4 @@
-package com.springboot.moving.entity;
+package com.springboot.find.entity;
 
 import com.springboot.common.entity.AggregateRoot;
 import com.springboot.user.entity.User;

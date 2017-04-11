@@ -1,4 +1,4 @@
-package com.springboot.moving.job;
+package com.springboot.find.job;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

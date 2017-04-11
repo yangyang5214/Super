@@ -5,9 +5,9 @@ package com.springboot.moving;
  */
 
 import com.springboot.Application;
-import com.springboot.moving.service.MovingService;
-import com.springboot.moving.ws.dto.CommentDto;
-import com.springboot.moving.ws.dto.MovingDto;
+import com.springboot.find.service.MovingService;
+import com.springboot.find.ws.dto.CommentDto;
+import com.springboot.find.ws.dto.MovingDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)

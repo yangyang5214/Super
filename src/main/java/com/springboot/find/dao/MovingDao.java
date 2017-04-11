@@ -1,7 +1,7 @@
-package com.springboot.moving.dao;
+package com.springboot.find.dao;
 
 import com.springboot.common.dao.BaseDao;
-import com.springboot.moving.entity.Moving;
+import com.springboot.find.entity.Moving;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
