@@ -2,6 +2,7 @@ package com.springboot.find.ws.dto;
 
 import com.google.common.collect.Lists;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ public class MovingDto {
 
     private String content;
     private String position;
-    private List<String> imageUrl = Lists.newArrayList();
+    private List<String> imageUrl = new ArrayList<>();
     private String publishTime;
 
     private String userId;

@@ -1,5 +1,6 @@
 package com.springboot.find.ws;
 
+import com.google.gson.Gson;
 import com.springboot.common.dto.ListResponseDto;
 import com.springboot.common.dto.ResponseDto;
 import com.springboot.find.entity.Beauty;
@@ -41,8 +42,8 @@ public class MovingWebService {
     }
 
     @RequestMapping(value = "moving/allMoving", method = RequestMethod.GET)
-    public ListResponseDto<MovingDto> listMoving(int size,int offset) {
-        return movingService.listMoving(offset, size);
+    public String listMoving(int size,int offset) {
+        return new Gson().toJson(movingService.listMoving(offset, size));
     }
 
     @RequestMapping(value = "moving/publish/comment", method = RequestMethod.POST)
