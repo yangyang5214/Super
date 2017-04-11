@@ -22,8 +22,8 @@ public class Moving extends AggregateRoot {
     @Column(name = "CONTENT")
     private String content;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Image> imageUrls = Lists.newArrayList();
+    @Column(name = "IMAGEURLS")
+    private String imageUrls;
 
     @Column(name = "POSITION")
     private String position;
@@ -36,17 +36,17 @@ public class Moving extends AggregateRoot {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "moving",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = Lists.newArrayList();
 
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
 
-    public List<Image> getImageUrls() {
+
+    public String getImageUrls() {
         return imageUrls;
     }
 
-    public void setImageUrls(List<Image> imageUrls) {
+    public void setImageUrls(String imageUrls) {
         this.imageUrls = imageUrls;
-    }
-
-    public List<Comment> getCommentList() {
-        return commentList;
     }
 
     public void setCommentList(List<Comment> commentList) {

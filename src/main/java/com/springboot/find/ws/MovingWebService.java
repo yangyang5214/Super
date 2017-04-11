@@ -2,7 +2,9 @@ package com.springboot.find.ws;
 
 import com.springboot.common.dto.ListResponseDto;
 import com.springboot.common.dto.ResponseDto;
+import com.springboot.find.entity.Beauty;
 import com.springboot.find.service.MovingService;
+import com.springboot.find.ws.dto.BeautyDto;
 import com.springboot.find.ws.dto.CommentDto;
 import com.springboot.find.ws.dto.MovingDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,13 @@ public class MovingWebService {
     @RequestMapping(value = "moving/publish/comment", method = RequestMethod.POST)
     public ListResponseDto<CommentDto> publishComment(CommentDto commentDto) {
         return movingService.publishComment(commentDto);
+    }
+
+    @RequestMapping(value = "beauty/allBeauty", method = RequestMethod.POST)
+    public ListResponseDto<BeautyDto> publishComment(
+            @RequestParam("size") int size,
+            @RequestParam("offset") int offset) {
+        return movingService.listBeauty(offset, size);
     }
 
 

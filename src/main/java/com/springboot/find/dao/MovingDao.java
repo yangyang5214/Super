@@ -1,6 +1,7 @@
 package com.springboot.find.dao;
 
 import com.springboot.common.dao.BaseDao;
+import com.springboot.find.entity.Beauty;
 import com.springboot.find.entity.Moving;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,15 @@ import java.util.List;
 public class MovingDao extends BaseDao {
 
     public List<Moving> listMoving(int start,int size){
-        String jpql="select m from Moving m where m.type = 0 order by m.creationTime desc ";
+        String jpql="select m from Moving m order by m.creationTime desc ";
+        Query query = em.createQuery(jpql);
+        query.setMaxResults(size);
+        query.setFirstResult(start);
+        return query.getResultList();
+    }
+
+    public List<Beauty> listBeauty(int start, int size){
+        String jpql="select m from Moving m order by m.creationTime desc ";
         Query query = em.createQuery(jpql);
         query.setMaxResults(size);
         query.setFirstResult(start);

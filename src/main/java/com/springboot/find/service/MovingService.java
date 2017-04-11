@@ -6,9 +6,10 @@ import com.springboot.common.dto.ResponseDto;
 import com.springboot.common.util.Collections3;
 import com.springboot.common.util.FastDFSUtil;
 import com.springboot.find.dao.MovingDao;
+import com.springboot.find.entity.Beauty;
 import com.springboot.find.entity.Comment;
+import com.springboot.find.ws.dto.BeautyDto;
 import com.springboot.find.ws.dto.CommentDto;
-import com.springboot.find.entity.Image;
 import com.springboot.find.entity.Moving;
 import com.springboot.find.ws.dto.MovingDto;
 import com.springboot.user.entity.User;
@@ -43,15 +44,14 @@ public class MovingService {
         movingDto.setUserId("1");
         Moving moving = new Moving();
         if (null != file) {
-            List<Image> imageList = Lists.newArrayList();
+            StringBuffer imageUrls = new StringBuffer();
             try {
                 for (int i = 0; i < file.size(); i++) {
-                    Image image = new Image();
-                    image.setUrl(fastDFSUtil.saveImage(file.get(i).getInputStream()));
-                    movingDao.persist(image);
-                    imageList.add(image);
+                    imageUrls.append(fastDFSUtil.saveImage(file.get(i).getInputStream()));
+                    imageUrls.append(",");
                 }
-                moving.setImageUrls(imageList);
+                String imageUrl = imageUrls.toString();
+                moving.setImageUrls(imageUrl.substring(0,imageUrl.length()-1));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -73,13 +73,33 @@ public class MovingService {
         return listResponseDto;
     }
 
+    public ListResponseDto<BeautyDto> listBeauty(int offset, int size) {
+        ListResponseDto<BeautyDto> listResponseDto = new ListResponseDto<>();
+        List<BeautyDto> listBeautyDto = Lists.newArrayList();
+        List<Beauty> listMoving = movingDao.listBeauty((offset - 1) * size, size);
+        listMoving.stream().forEach(p -> listBeautyDto.add(formatBeauty(p)));
+        listResponseDto.setObjs(listBeautyDto);
+        return listResponseDto;
+    }
+
+    public BeautyDto formatBeauty(Beauty beauty) {
+        BeautyDto BeautyDto = new BeautyDto();
+        BeautyDto.setContent(beauty.getContent());
+        BeautyDto.setImageUrl(beauty.getImageUrl());
+        BeautyDto.setPublishTime(beauty.getCreationTime().toString());
+        BeautyDto.setAvatarUrl(beauty.getUser().getAvatarUrl());
+        BeautyDto.setUserId(String.valueOf(beauty.getUser().getId()));
+        BeautyDto.setUserName(beauty.getUser().getUsername());
+        return BeautyDto;
+    }
+
     public MovingDto formatMoving(Moving moving) {
         MovingDto movingDto = new MovingDto();
         movingDto.setAvatarUrl(moving.getUser().getAvatarUrl());
         movingDto.setUserId(String.valueOf(moving.getUser().getId()));
         movingDto.setUserName(moving.getUser().getUsername());
         movingDto.setContent(moving.getContent());
-//        movingDto.setImageUrl(moving.getImageUrl());
+        movingDto.setImageUrl(moving.getImageUrls());
         movingDto.setPublishTime(String.valueOf(moving.getCreationTime()));
         movingDto.setPosition(moving.getPosition());
         if (Collections3.isNotEmpty(moving.getCommentList())) {
