@@ -106,8 +106,12 @@ public class MovingService {
         movingDto.setUserName(moving.getUser().getUsername());
         movingDto.setContent(moving.getContent());
         if (StringUtil.isNotEmpty(moving.getImageUrl())){
-            List<String> imageUrl = Arrays.asList(moving.getImageUrl().split(","));
-            movingDto.setImageUrl(imageUrl);
+            String[] imageUrl = moving.getImageUrl().split(",");
+            List<String> imageUrls = Lists.newArrayList();
+            for (String s : imageUrl) {
+                imageUrls.add(ip + s);
+            }
+            movingDto.setImageUrl(imageUrls);
         }
         movingDto.setPublishTime(String.valueOf(moving.getCreationTime()));
         movingDto.setPosition(moving.getPosition());
