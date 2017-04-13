@@ -125,9 +125,9 @@ public class MovingService {
 
     public MovingDto formatMoving(Moving moving) {
         MovingDto movingDto = new MovingDto();
-        movingDto.setAvatarUrl(moving.getUser().getAvatarUrl());
+        movingDto.setAvatarUrl(ip + moving.getUser().getAvatarUrl());
         movingDto.setUserId(String.valueOf(moving.getUser().getId()));
-        movingDto.setUserName(moving.getUser().getUsername());
+        movingDto.setUserName(moving.getUser().getNickName());
         movingDto.setContent(moving.getContent());
         if (StringUtil.isNotEmpty(moving.getImageUrl())) {
             String[] imageUrl = moving.getImageUrl().split(",");
