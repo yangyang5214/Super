@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,12 +41,43 @@ public class MovingService {
     @Autowired
     private FastDFSUtil fastDFSUtil;
 
-    public ResponseDto publishMoving(List<MultipartFile> file) throws UnsupportedEncodingException {
-        MovingDto movingDto = new MovingDto();
-        movingDto.setContent("11");
-        movingDto.setMovingType(1);
-        movingDto.setPosition("11");
-        movingDto.setUserId("1");
+    public ResponseDto publishFind(List<MultipartFile> file, String userId, String content, int type) throws UnsupportedEncodingException {
+        switch (type) {
+            case 0:
+                break;
+            case 1:
+                publishBeauty(file,userId,content);
+                break;
+            case 2:
+                publishMoving(file,userId,content);
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            default:
+                break;
+        }
+        return new ResponseDto();
+
+    }
+
+    private void publishBeauty(List<MultipartFile> file, String userId, String content) throws UnsupportedEncodingException {
+        Beauty beauty = new Beauty();
+        if (null != file) {
+            try {
+                beauty.setImageUrl(fastDFSUtil.saveImage(file.get(0).getInputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        beauty.setContent(URLDecoder.decode(content, "utf-8"));
+        beauty.setUser(movingDao.findById(User.class, Long.parseLong(userId)));
+        movingDao.persist(beauty);
+    }
+
+
+    public  void publishMoving(List<MultipartFile> file, String userId, String content) throws UnsupportedEncodingException {
         Moving moving = new Moving();
         if (null != file) {
             StringBuffer imageUrls = new StringBuffer();
@@ -57,35 +87,29 @@ public class MovingService {
                     imageUrls.append(",");
                 }
                 String imageUrl = imageUrls.toString();
-                moving.setImageUrl(imageUrl.substring(0,imageUrl.length()-1));
+                moving.setImageUrl(imageUrl.substring(0, imageUrl.length() - 1));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        moving.setContent(URLDecoder.decode(movingDto.getContent(), "utf-8"));
-        moving.setUser(movingDao.findById(User.class, Long.parseLong(movingDto.getUserId())));
-        moving.setPosition(movingDto.getPosition());
+        moving.setContent(URLDecoder.decode(content, "utf-8"));
+        moving.setUser(movingDao.findById(User.class, Long.parseLong(userId)));
         movingDao.persist(moving);
-        return new ResponseDto();
     }
 
 
     public List<MovingDto> listMoving(int offset, int size) {
-        ListResponseDto<MovingDto> listResponseDto = new ListResponseDto<>();
         List<MovingDto> listMovingDto = Lists.newArrayList();
         List<Moving> listMoving = movingDao.listMoving((offset - 1) * size, size);
         listMoving.stream().forEach(p -> listMovingDto.add(formatMoving(p)));
-        listResponseDto.setObjs(listMovingDto);
         return listMovingDto;
     }
 
-    public ListResponseDto<BeautyDto> listBeauty(int offset, int size) {
-        ListResponseDto<BeautyDto> listResponseDto = new ListResponseDto<>();
+    public List<BeautyDto> listBeauty(int offset, int size) {
         List<BeautyDto> listBeautyDto = Lists.newArrayList();
         List<Beauty> listMoving = movingDao.listBeauty((offset - 1) * size, size);
         listMoving.stream().forEach(p -> listBeautyDto.add(formatBeauty(p)));
-        listResponseDto.setObjs(listBeautyDto);
-        return listResponseDto;
+        return listBeautyDto;
     }
 
     public BeautyDto formatBeauty(Beauty beauty) {
@@ -105,7 +129,7 @@ public class MovingService {
         movingDto.setUserId(String.valueOf(moving.getUser().getId()));
         movingDto.setUserName(moving.getUser().getUsername());
         movingDto.setContent(moving.getContent());
-        if (StringUtil.isNotEmpty(moving.getImageUrl())){
+        if (StringUtil.isNotEmpty(moving.getImageUrl())) {
             String[] imageUrl = moving.getImageUrl().split(",");
             List<String> imageUrls = Lists.newArrayList();
             for (String s : imageUrl) {
