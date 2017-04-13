@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.springboot.common.dto.ListResponseDto;
 import com.springboot.common.dto.ResponseDto;
 import com.springboot.common.util.Collections3;
+import com.springboot.common.util.DataUtil;
 import com.springboot.common.util.FastDFSUtil;
 import com.springboot.common.util.StringUtil;
 import com.springboot.find.dao.MovingDao;
@@ -116,7 +117,7 @@ public class MovingService {
         BeautyDto BeautyDto = new BeautyDto();
         BeautyDto.setContent(beauty.getContent());
         BeautyDto.setImageUrl(ip + beauty.getImageUrl());
-        BeautyDto.setPublishTime(beauty.getCreationTime().toString());
+        BeautyDto.setPublishTime(DataUtil.formatDate(beauty.getCreationTime()));
         BeautyDto.setAvatarUrl(beauty.getUser().getAvatarUrl());
         BeautyDto.setUserId(String.valueOf(beauty.getUser().getId()));
         BeautyDto.setUserName(beauty.getUser().getUsername());
@@ -137,7 +138,7 @@ public class MovingService {
             }
             movingDto.setImageUrl(imageUrls);
         }
-        movingDto.setPublishTime(String.valueOf(moving.getCreationTime()));
+        movingDto.setPublishTime(DataUtil.formatDate(moving.getCreationTime()));
         movingDto.setPosition(moving.getPosition());
         if (Collections3.isNotEmpty(moving.getCommentList())) {
             List<CommentDto> listComment = Lists.newArrayList();
