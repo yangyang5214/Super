@@ -34,9 +34,10 @@ public class MovingWebService {
             @RequestParam("files") List<MultipartFile> file,
             String userId,
             String content,
+            String price,
             int type) {
         try {
-            return movingService.publishFind(file,userId,content,type);
+            return movingService.publishFind(file,userId,content,price,type);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -56,6 +57,11 @@ public class MovingWebService {
     @RequestMapping(value = "beauty/allBeauty", method = RequestMethod.GET)
     public String publishComment(int size,int offset) {
         return new Gson().toJson(movingService.listBeauty(offset, size));
+    }
+
+    @RequestMapping(value = "market/allMarket", method = RequestMethod.GET)
+    public String publishMarket(int size,int offset) {
+        return new Gson().toJson(movingService.listMarket(offset, size));
     }
 
 

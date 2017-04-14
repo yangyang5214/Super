@@ -10,9 +10,11 @@ import com.springboot.common.util.StringUtil;
 import com.springboot.find.dao.MovingDao;
 import com.springboot.find.entity.Beauty;
 import com.springboot.find.entity.Comment;
+import com.springboot.find.entity.Market;
 import com.springboot.find.ws.dto.BeautyDto;
 import com.springboot.find.ws.dto.CommentDto;
 import com.springboot.find.entity.Moving;
+import com.springboot.find.ws.dto.MarketDto;
 import com.springboot.find.ws.dto.MovingDto;
 import com.springboot.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,7 @@ public class MovingService {
     @Autowired
     private FastDFSUtil fastDFSUtil;
 
-    public ResponseDto publishFind(List<MultipartFile> file, String userId, String content, int type) throws UnsupportedEncodingException {
+    public ResponseDto publishFind(List<MultipartFile> file, String userId, String content,String price, int type) throws UnsupportedEncodingException {
         switch (type) {
             case 0:
                 break;
@@ -53,6 +55,7 @@ public class MovingService {
                 publishMoving(file,userId,content);
                 break;
             case 3:
+                publishMarket(file,userId,content,price);
                 break;
             case 4:
                 break;
@@ -61,6 +64,27 @@ public class MovingService {
         }
         return new ResponseDto();
 
+    }
+
+    private void publishMarket(List<MultipartFile> file, String userId, String content, String price) throws UnsupportedEncodingException {
+        Market market = new Market();
+        if (null != file) {
+            StringBuffer imageUrls = new StringBuffer();
+            try {
+                for (int i = 0; i < file.size(); i++) {
+                    imageUrls.append(fastDFSUtil.saveImage(file.get(i).getInputStream()));
+                    imageUrls.append(",");
+                }
+                String imageUrl = imageUrls.toString();
+                market.setImageUrl(imageUrl.substring(0, imageUrl.length() - 1));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        market.setContent(URLDecoder.decode(content, "utf-8"));
+        market.setPrice(price);
+        market.setUser(movingDao.findById(User.class, Long.parseLong(userId)));
+        movingDao.persist(market);
     }
 
     private void publishBeauty(List<MultipartFile> file, String userId, String content) throws UnsupportedEncodingException {
@@ -113,6 +137,13 @@ public class MovingService {
         return listBeautyDto;
     }
 
+    public List<MarketDto> listMarket(int offset, int size) {
+        List<MarketDto> marketDtos = Lists.newArrayList();
+        List<Market> markets = movingDao.listMarket((offset - 1) * size, size);
+        markets.stream().forEach(p -> marketDtos.add(formatMarket(p)));
+        return marketDtos;
+    }
+
     public BeautyDto formatBeauty(Beauty beauty) {
         BeautyDto BeautyDto = new BeautyDto();
         BeautyDto.setContent(beauty.getContent());
@@ -120,8 +151,28 @@ public class MovingService {
         BeautyDto.setPublishTime(DataUtil.formatDate(beauty.getCreationTime()));
         BeautyDto.setAvatarUrl(beauty.getUser().getAvatarUrl());
         BeautyDto.setUserId(String.valueOf(beauty.getUser().getId()));
-        BeautyDto.setUserName(beauty.getUser().getUsername());
+        BeautyDto.setUserName(beauty.getUser().getNickName());
         return BeautyDto;
+    }
+
+
+    public MarketDto formatMarket(Market market) {
+        MarketDto marketDto = new MarketDto();
+        marketDto.setContent(market.getContent());
+        if (StringUtil.isNotEmpty(market.getImageUrl())) {
+            String[] imageUrl = market.getImageUrl().split(",");
+            List<String> imageUrls = Lists.newArrayList();
+            for (String s : imageUrl) {
+                imageUrls.add(ip + s);
+            }
+            marketDto.setImageUrl(imageUrls);
+        }
+        marketDto.setPublishTime(DataUtil.formatDate(market.getCreationTime()));
+        marketDto.setPrice(market.getPrice());
+        marketDto.setAvatarUrl(market.getUser().getAvatarUrl());
+        marketDto.setUserId(String.valueOf(market.getUser().getId()));
+        marketDto.setUserName(market.getUser().getNickName());
+        return marketDto;
     }
 
     public MovingDto formatMoving(Moving moving) {
