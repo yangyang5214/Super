@@ -17,55 +17,20 @@ public class UserDto {
     private String universityName;
     private String identityCardAddress;
 
-    public String getIdentityCardAddress() {
-        return identityCardAddress;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdentityCardAddress(String identityCardAddress) {
-        this.identityCardAddress = identityCardAddress;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public UserDto() {
-
+    public String getNickName() {
+        return nickName;
     }
 
-    public UserDto(User user) {
-
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public void UserDto(User user) {
-        this.id = user.getId();
-        this.nickName = user.getNickName();
-        this.universityName = user.getUniversityName();
-        this.sex = user.getSex();
-        this.signature = user.getSignature();
-        this.area = user.getArea();
-        this.avatarUrl = user.getAvatarUrl();
-    }
-
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getSex() {
@@ -76,12 +41,28 @@ public class UserDto {
         this.sex = sex;
     }
 
-    public Long getId() {
-        return id;
+    public String getSignature() {
+        return signature;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public String getUniversityName() {
@@ -92,11 +73,11 @@ public class UserDto {
         this.universityName = universityName;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getIdentityCardAddress() {
+        return identityCardAddress;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setIdentityCardAddress(String identityCardAddress) {
+        this.identityCardAddress = identityCardAddress;
     }
 }

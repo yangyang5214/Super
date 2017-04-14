@@ -39,6 +39,8 @@ import static java.util.Objects.nonNull;
 @Transactional
 public class UserService {
 
+    @Value("${ip:}")
+    private String ip;
 
     @Value("${excel.save.position:}")
     private String excelPosition;
@@ -85,23 +87,30 @@ public class UserService {
 
 
 
-    public ResponseDto login(RegisterDto registerDto){
+    public ResponseDto login(String username,String password){
         ResponseDto responseDto = new ResponseDto();
-        User user = baseDao.find(User.class,"USERNAME",registerDto.getUsername());
+        User user = baseDao.find(User.class,"USERNAME",username);
         if (isNull(user)){
             responseDto.setSuccess(Boolean.FALSE);
             responseDto.setMessage("用户未注册！");
             return responseDto;
         }
-        if (!user.getPassword().equals(registerDto.getPassword())){
+        if (!user.getPassword().equals(password)){
             responseDto.setSuccess(Boolean.FALSE);
             responseDto.setMessage("用户名或密码错误！");
             return responseDto;
         }
-        responseDto.setObj(new UserDto(user));
+        responseDto.setObj(formatUser(user));
         return responseDto;
     }
 
+    private UserDto formatUser(User user){
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setAvatarUrl(ip + user.getAvatarUrl());
+        userDto.setNickName(user.getNickName());
+        return userDto;
+    }
     public ResponseDto recordLogin(String username, String password) {
         ResponseDto responseDto = new ResponseDto();
         User user = baseDao.find(User.class,"USERNAME",username);
@@ -115,15 +124,8 @@ public class UserService {
             responseDto.setMessage("学号或密码错误！");
             return responseDto;
         }
-        responseDto.setObj(formatUserDto(user));
+        responseDto.setObj(formatUser(user));
         return responseDto;
-    }
-
-
-    public UserDto formatUserDto(User user){
-        UserDto userDto = new UserDto();
-        userDto.setNickName(user.getNickName());
-        return userDto;
     }
 
     public ResponseDto updataUserInfo(MultipartFile avatarFile,UserDto userDto){

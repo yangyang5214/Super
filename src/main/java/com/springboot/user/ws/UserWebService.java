@@ -31,9 +31,9 @@ public class UserWebService extends BaseWebService {
         return userService.register(username,password);
     }
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ResponseDto login(@NotNull RegisterDto registerDto){
-        return userService.login(registerDto);
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    public ResponseDto login(String username,String password){
+        return userService.login(username,password);
     }
 
     @RequestMapping(value = "/updata/userInfo",method = RequestMethod.POST)
@@ -47,12 +47,6 @@ public class UserWebService extends BaseWebService {
     public ResponseDto exportToMailbox(@NotNull String email){
         userService.exportToMailbox(email);
         return new ResponseDto();
-    }
-
-
-    @RequestMapping(value = "/record/login",method = RequestMethod.GET)
-    public ResponseDto recordLogin(String username,String password){
-        return userService.recordLogin(username,password);
     }
 
     @RequestMapping(value = "/register/code/",method = RequestMethod.GET)
