@@ -149,7 +149,7 @@ public class MovingService {
         BeautyDto.setContent(beauty.getContent());
         BeautyDto.setImageUrl(ip + beauty.getImageUrl());
         BeautyDto.setPublishTime(DataUtil.formatDate(beauty.getCreationTime()));
-        BeautyDto.setAvatarUrl(beauty.getUser().getAvatarUrl());
+        BeautyDto.setAvatarUrl(ip + beauty.getUser().getAvatarUrl());
         BeautyDto.setUserId(String.valueOf(beauty.getUser().getId()));
         BeautyDto.setUserName(beauty.getUser().getNickName());
         return BeautyDto;
@@ -169,7 +169,7 @@ public class MovingService {
         }
         marketDto.setPublishTime(DataUtil.formatDate(market.getCreationTime()));
         marketDto.setPrice(market.getPrice());
-        marketDto.setAvatarUrl(market.getUser().getAvatarUrl());
+        marketDto.setAvatarUrl(ip + market.getUser().getAvatarUrl());
         marketDto.setUserId(String.valueOf(market.getUser().getId()));
         marketDto.setUserName(market.getUser().getNickName());
         return marketDto;
