@@ -217,12 +217,12 @@ public class FastDFSUtil {
 
     public String saveImage(InputStream fileInputStream) {
         String imgId = UUID.randomUUID().toString();
-        String fileName = imgId + ".png";
+        String fileName = imgId + ".jpg";
         String filePath = imagePosition + "/" + fileName;
         FastDFSUtil.savePic(fileInputStream, fileName, imagePosition);
         double imageSize = new File(filePath).length()/1024.0/1024.0;
         if (imageSize > 1){   //文件大于1M进行压缩
-            String zipFileName = imgId + "-1.png";
+            String zipFileName = imgId + "-1.jpg";
             String zipFilePath = imagePosition + "/" + zipFileName;
             FastDFSUtil.zipImageFile(filePath,zipFilePath,1000,1);
             return imageUrl + zipFileName;
