@@ -8,7 +8,7 @@ public class ListResponseDto<T> {
 
 	private String message;
 
-	private List<T> objs;
+	private List<T> obj;
 
 	public Boolean getSuccess() {
 		return success;
@@ -26,11 +26,11 @@ public class ListResponseDto<T> {
 		this.message = message;
 	}
 
-	public List<T> getObjs() {
-		return objs;
+	public List<T> getObj() {
+		return obj;
 	}
 
-	public void setObjs(List<T> objs) {
-		this.objs = objs;
+	public void setObj(List<T> obj) {
+		this.obj = obj;
 	}
 }
