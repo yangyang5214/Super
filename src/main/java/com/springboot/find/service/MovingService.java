@@ -123,11 +123,13 @@ public class MovingService {
     }
 
 
-    public List<MovingDto> listMoving(int offset, int size) {
+    public ListResponseDto<MovingDto> listMoving(int offset, int size) {
+        ListResponseDto<MovingDto> listResponseDto = new ListResponseDto<>();
         List<MovingDto> listMovingDto = Lists.newArrayList();
         List<Moving> listMoving = movingDao.listMoving((offset - 1) * size, size);
         listMoving.stream().forEach(p -> listMovingDto.add(formatMoving(p)));
-        return listMovingDto;
+        listResponseDto.setObjs(listMovingDto);
+        return listResponseDto;
     }
 
     public List<BeautyDto> listBeauty(int offset, int size) {
