@@ -128,7 +128,7 @@ public class MovingService {
         List<MovingDto> listMovingDto = Lists.newArrayList();
         List<Moving> listMoving = movingDao.listMoving((offset - 1) * size, size);
         listMoving.stream().forEach(p -> listMovingDto.add(formatMoving(p)));
-        listResponseDto.setObjs(listMovingDto);
+        listResponseDto.setObj(listMovingDto);
         return listResponseDto;
     }
 
@@ -221,7 +221,7 @@ public class MovingService {
         List<CommentDto> commentDtoList = Lists.newArrayList();
         List<Comment> commentList = movingDao.findById(Moving.class, Long.parseLong(commentDto.getMovingId())).getCommentList();
         commentList.stream().forEach(p -> commentDtoList.add(formatComment(p)));
-        listResponseDto.setObjs(commentDtoList);
+        listResponseDto.setObj(commentDtoList);
         return listResponseDto;
     }
 
