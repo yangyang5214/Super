@@ -21,7 +21,27 @@ public class MovingDto {
 
     private Integer movingType;
 
+    private String commentCount; //评论总数
+    private String goodCount;//点赞总数
+    private List<CommentDto> listComment = Lists.newArrayList();
+
     public MovingDto() {
+    }
+
+    public String getCommentCount() {
+        return commentCount;
+    }
+
+    public String getGoodCount() {
+        return goodCount;
+    }
+
+    public void setGoodCount(String goodCount) {
+        this.goodCount = goodCount;
+    }
+
+    public void setCommentCount(String commentCount) {
+        this.commentCount = commentCount;
     }
 
     public int getMovingType() {
@@ -32,7 +52,6 @@ public class MovingDto {
         this.movingType = movingType;
     }
 
-    private List<CommentDto> listComment = Lists.newArrayList();
 
     public List<CommentDto> getListComment() {
         return listComment;

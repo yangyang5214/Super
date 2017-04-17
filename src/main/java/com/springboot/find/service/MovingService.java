@@ -193,6 +193,8 @@ public class MovingService {
         }
         movingDto.setPublishTime(DataUtil.formatDate(moving.getCreationTime()));
         movingDto.setPosition(moving.getPosition());
+        movingDto.setCommentCount(String.valueOf(moving.getCommentCount()));
+        movingDto.setGoodCount(String.valueOf(moving.getGoodCount()));
         if (Collections3.isNotEmpty(moving.getCommentList())) {
             List<CommentDto> listComment = Lists.newArrayList();
             moving.getCommentList().stream().forEach(p -> listComment.add(formatComment(p)));
@@ -210,7 +212,7 @@ public class MovingService {
         return commentDto;
     }
 
-    public ListResponseDto<CommentDto> publishComment(CommentDto commentDto) {
+    public ResponseDto publishComment(CommentDto commentDto) {
         ListResponseDto<CommentDto> listResponseDto = new ListResponseDto<>();
         Comment comment = new Comment();
         comment.setContent(commentDto.getContent());
@@ -218,11 +220,13 @@ public class MovingService {
         comment.setCommentUser(movingDao.findById(User.class, Long.parseLong(commentDto.getCommentUserId())));
         comment.setUnCommentUser(movingDao.findById(User.class, Long.parseLong(commentDto.getUnCommentUserId())));
         movingDao.persist(comment);
-        List<CommentDto> commentDtoList = Lists.newArrayList();
-        List<Comment> commentList = movingDao.findById(Moving.class, Long.parseLong(commentDto.getMovingId())).getCommentList();
-        commentList.stream().forEach(p -> commentDtoList.add(formatComment(p)));
-        listResponseDto.setObj(commentDtoList);
-        return listResponseDto;
+        Moving moving = movingDao.findById(Moving.class,commentDto.getMovingId());
+        moving.setCommentCount(moving.getCommentCount().add(new BigDecimal(1)));
+//        List<CommentDto> commentDtoList = Lists.newArrayList();
+//        List<Comment> commentList = movingDao.findById(Moving.class, Long.parseLong(commentDto.getMovingId())).getCommentList();
+//        commentList.stream().forEach(p -> commentDtoList.add(formatComment(p)));
+//        listResponseDto.setObjs(commentDtoList);
+        return new ResponseDto();
     }
 
 }

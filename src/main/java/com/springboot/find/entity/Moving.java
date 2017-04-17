@@ -5,6 +5,7 @@ import com.springboot.common.entity.AggregateRoot;
 import com.springboot.user.entity.User;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -28,6 +29,12 @@ public class Moving extends AggregateRoot {
     @Column(name = "POSITION")
     private String position;
 
+    @Column(name = "COMMENT_COUNT")
+    private BigDecimal commentCount;
+
+    @Column(name = "GOOD_COUNT")
+    private BigDecimal goodCount;
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
     private User user;
@@ -35,6 +42,22 @@ public class Moving extends AggregateRoot {
     //orphanRemoval:如：一级分类删除，是否自动删除和该一级分类外键的二级分类及关联的商品对象，true代表自动删除
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "moving",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = Lists.newArrayList();
+
+    public BigDecimal getGoodCount() {
+        return goodCount;
+    }
+
+    public void setGoodCount(BigDecimal goodCount) {
+        this.goodCount = goodCount;
+    }
+
+    public BigDecimal getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(BigDecimal commentCount) {
+        this.commentCount = commentCount;
+    }
 
     public List<Comment> getCommentList() {
         return commentList;

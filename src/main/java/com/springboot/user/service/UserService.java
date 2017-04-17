@@ -92,7 +92,7 @@ public class UserService {
         User user = baseDao.find(User.class,"USERNAME",username);
         if (isNull(user)){
             responseDto.setSuccess(Boolean.FALSE);
-            responseDto.setMessage("用户未注册！");
+            responseDto.setMessage("用户不存在！");
             return responseDto;
         }
         if (!user.getPassword().equals(password)){

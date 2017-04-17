@@ -50,7 +50,7 @@ public class MovingWebService {
     }
 
     @RequestMapping(value = "moving/publish/comment", method = RequestMethod.POST)
-    public ListResponseDto<CommentDto> publishComment(CommentDto commentDto) {
+    public ResponseDto publishComment(CommentDto commentDto) {
         return movingService.publishComment(commentDto);
     }
 
