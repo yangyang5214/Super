@@ -1,6 +1,7 @@
 package com.springboot.user;
 
 import com.springboot.Application;
+import com.springboot.find.service.MovingService;
 import com.springboot.user.service.UserService;
 import com.springboot.user.ws.dto.RegisterDto;
 import com.springboot.user.ws.dto.UserDto;
@@ -22,6 +23,9 @@ public class UserTest {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MovingService movingService;
 
 
     @Test
@@ -65,8 +69,10 @@ public class UserTest {
         userService.registerForCode("qwff","2174211287@qq.com");
     }
 
-
-
+    @Test
+    public void getUserFindDataTest(){
+        userService.getUserFindData(1);
+    }
 
 
 

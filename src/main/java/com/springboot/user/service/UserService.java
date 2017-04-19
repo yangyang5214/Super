@@ -7,10 +7,12 @@ import com.springboot.common.util.EmailUtil;
 import com.springboot.common.util.ExcelUtil;
 import com.springboot.common.util.FastDFSUtil;
 import com.springboot.common.util.StringUtil;
+import com.springboot.find.dao.MovingDao;
 import com.springboot.user.dao.UserDao;
 import com.springboot.user.entity.User;
 import com.springboot.user.ws.dto.RegisterDto;
 import com.springboot.user.ws.dto.UserDto;
+import com.springboot.user.ws.dto.UserFindData;
 import com.springboot.user.ws.dto.UserPoiDto;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.ss.usermodel.Row;
@@ -53,6 +55,10 @@ public class UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private MovingDao movingDao;
+
 
     @Autowired
     public EmailUtil emailUtil;
@@ -269,5 +275,13 @@ public class UserService {
     }
 
 
-
+    public ResponseDto getUserFindData(long userId) {
+        ResponseDto responseDto = new ResponseDto();
+        UserFindData userFindData = new UserFindData();
+        userFindData.setBeayty(movingDao.getBeaytyUserData(userId));
+        userFindData.setMoving(movingDao.getMovingUserData(userId));
+        userFindData.setMarket(movingDao.getMarketUserData(userId));
+        responseDto.setObj(userFindData);
+        return responseDto;
+    }
 }

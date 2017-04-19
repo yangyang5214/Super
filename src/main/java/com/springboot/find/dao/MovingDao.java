@@ -4,6 +4,7 @@ import com.springboot.common.dao.BaseDao;
 import com.springboot.find.entity.Beauty;
 import com.springboot.find.entity.Market;
 import com.springboot.find.entity.Moving;
+import com.springboot.user.ws.dto.UserFindData;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
@@ -37,5 +38,25 @@ public class MovingDao extends BaseDao {
         query.setMaxResults(size);
         query.setFirstResult(start);
         return query.getResultList();
+    }
+    public long getBeaytyUserData(long userId){
+        String jpql="select count(beauty.id) from Beauty beauty where beauty.user.id =:userId";
+        Query query = em.createQuery(jpql);
+        query.setParameter("userId",userId);
+        return (long) query.getSingleResult();
+    }
+
+    public long getMovingUserData(long userId){
+        String jpql="select count(moving.id) from Moving moving where moving.user.id =:userId";
+        Query query = em.createQuery(jpql);
+        query.setParameter("userId",userId);
+        return (long) query.getSingleResult();
+    }
+
+    public long getMarketUserData(long userId){
+        String jpql="select count(market.id) from Market market where market.user.id =:userId";
+        Query query = em.createQuery(jpql);
+        query.setParameter("userId",userId);
+        return (long) query.getSingleResult();
     }
 }

@@ -36,6 +36,11 @@ public class UserWebService extends BaseWebService {
         return userService.login(username,password);
     }
 
+    @RequestMapping(value = "/find/data",method = RequestMethod.GET)
+    public ResponseDto getUserFindData(long userId){
+        return userService.getUserFindData(userId);
+    }
+
     @RequestMapping(value = "/updata/userInfo",method = RequestMethod.POST)
     public ResponseDto updataUserInfo(
             @RequestParam("file") MultipartFile avatarFile,
