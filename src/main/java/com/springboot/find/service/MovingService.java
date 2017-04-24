@@ -232,6 +232,7 @@ public class MovingService {
             weiXinDto.setContent(xin.getContent());
             weiXinDto.setImageUrl(ip + xin.getImageUrl());
             weiXinDto.setUrl(xin.getUrl());
+            weiXinDto.setData(DataUtil.dateToString(xin.getCreationTime()));
             weiXinDtoList.add(weiXinDto);
         }
         return weiXinDtoList;
