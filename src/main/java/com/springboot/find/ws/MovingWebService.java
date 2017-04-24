@@ -49,6 +49,11 @@ public class MovingWebService {
         return new Gson().toJson(movingService.listMoving(offset, size));
     }
 
+    @RequestMapping(value = "allWeiXin", method = RequestMethod.GET)
+    public String listWeiXin() {
+        return new Gson().toJson(movingService.allWeiXin());
+    }
+
     @RequestMapping(value = "moving/publish/comment", method = RequestMethod.POST)
     public ResponseDto publishComment(CommentDto commentDto) {
         return movingService.publishComment(commentDto);

@@ -10,9 +10,8 @@ import com.springboot.common.util.StringUtil;
 import com.springboot.find.dao.MovingDao;
 import com.springboot.user.dao.UserDao;
 import com.springboot.user.entity.User;
-import com.springboot.user.ws.dto.RegisterDto;
 import com.springboot.user.ws.dto.UserDto;
-import com.springboot.user.ws.dto.UserFindData;
+import com.springboot.user.ws.dto.UserFindDataDto;
 import com.springboot.user.ws.dto.UserPoiDto;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.ss.usermodel.Row;
@@ -277,10 +276,10 @@ public class UserService {
 
     public ResponseDto getUserFindData(long userId) {
         ResponseDto responseDto = new ResponseDto();
-        UserFindData userFindData = new UserFindData();
-        userFindData.setBeayty(movingDao.getBeaytyUserData(userId));
-        userFindData.setMoving(movingDao.getMovingUserData(userId));
-        userFindData.setMarket(movingDao.getMarketUserData(userId));
+        UserFindDataDto userFindData = new UserFindDataDto();
+        userFindData.setBeayty(String.valueOf(movingDao.getBeaytyUserData(userId)));
+        userFindData.setMoving(String.valueOf(movingDao.getMovingUserData(userId)));
+        userFindData.setMarket(String.valueOf(movingDao.getMarketUserData(userId)));
         responseDto.setObj(userFindData);
         return responseDto;
     }

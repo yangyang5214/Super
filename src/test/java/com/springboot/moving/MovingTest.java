@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.ArrayList;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -51,12 +52,35 @@ public class MovingTest {
 
     @Test
     public  void  publishComment(){
+        ArrayList<String> arrayList = new ArrayList<>();
         CommentDto commentDto = new CommentDto();
         commentDto.setMovingId(1+"");
         commentDto.setContent("我是评论");
         commentDto.setCommentUserId("2");
         commentDto.setUnCommentUserId("1");
         movingService.publishComment(commentDto);
+    }
+
+    @Test
+    public  void allWeiXinTest(){
+        movingService.allWeiXin();
+    }
+
+    @Test
+    public void arrayListTest(){
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("11");
+        arrayList.add("11");
+        arrayList.add("11");
+        arrayList.add("11");
+        arrayList.add("11");
+        arrayList.add("11");
+        arrayList.add("11");
+        arrayList.add("11");
+        arrayList.add("11");
+        arrayList.add("11");
+        arrayList.add("11");
+        arrayList.add("11");
     }
 
 

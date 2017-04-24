@@ -1,5 +1,6 @@
 package com.springboot.user.ws;
 
+import com.google.gson.Gson;
 import com.springboot.common.dto.ResponseDto;
 import com.springboot.common.filter.BaseWebService;
 import com.springboot.user.service.UserService;
@@ -37,8 +38,8 @@ public class UserWebService extends BaseWebService {
     }
 
     @RequestMapping(value = "/find/data",method = RequestMethod.GET)
-    public ResponseDto getUserFindData(long userId){
-        return userService.getUserFindData(userId);
+    public String getUserFindData(long userId){
+        return new Gson().toJson(userService.getUserFindData(userId));
     }
 
     @RequestMapping(value = "/updata/userInfo",method = RequestMethod.POST)

@@ -4,7 +4,7 @@ import com.springboot.common.dao.BaseDao;
 import com.springboot.find.entity.Beauty;
 import com.springboot.find.entity.Market;
 import com.springboot.find.entity.Moving;
-import com.springboot.user.ws.dto.UserFindData;
+import com.springboot.find.ws.dto.WeiXinDto;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
@@ -39,6 +39,13 @@ public class MovingDao extends BaseDao {
         query.setFirstResult(start);
         return query.getResultList();
     }
+
+    public List<WeiXinDto> listWeiXin(){
+        String jpql="select weixin.content,weixin.imageUrl,weixin.url from WeiXin weixin order by weixin.creationTime desc ";
+        Query query = em.createQuery(jpql);
+        return query.getResultList();
+    }
+
     public long getBeaytyUserData(long userId){
         String jpql="select count(beauty.id) from Beauty beauty where beauty.user.id =:userId";
         Query query = em.createQuery(jpql);

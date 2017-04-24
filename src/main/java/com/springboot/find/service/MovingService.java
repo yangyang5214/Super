@@ -11,11 +11,8 @@ import com.springboot.find.dao.MovingDao;
 import com.springboot.find.entity.Beauty;
 import com.springboot.find.entity.Comment;
 import com.springboot.find.entity.Market;
-import com.springboot.find.ws.dto.BeautyDto;
-import com.springboot.find.ws.dto.CommentDto;
+import com.springboot.find.ws.dto.*;
 import com.springboot.find.entity.Moving;
-import com.springboot.find.ws.dto.MarketDto;
-import com.springboot.find.ws.dto.MovingDto;
 import com.springboot.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,18 +42,18 @@ public class MovingService {
     @Autowired
     private FastDFSUtil fastDFSUtil;
 
-    public ResponseDto publishFind(List<MultipartFile> file, String userId, String content,String price, int type) throws UnsupportedEncodingException {
+    public ResponseDto publishFind(List<MultipartFile> file, String userId, String content, String price, int type) throws UnsupportedEncodingException {
         switch (type) {
             case 0:
                 break;
             case 1:
-                publishBeauty(file,userId,content);
+                publishBeauty(file, userId, content);
                 break;
             case 2:
-                publishMoving(file,userId,content);
+                publishMoving(file, userId, content);
                 break;
             case 3:
-                publishMarket(file,userId,content,price);
+                publishMarket(file, userId, content, price);
                 break;
             case 4:
                 break;
@@ -103,7 +100,7 @@ public class MovingService {
     }
 
 
-    public  void publishMoving(List<MultipartFile> file, String userId, String content) throws UnsupportedEncodingException {
+    public void publishMoving(List<MultipartFile> file, String userId, String content) throws UnsupportedEncodingException {
         Moving moving = new Moving();
         if (null != file) {
             StringBuffer imageUrls = new StringBuffer();
@@ -221,7 +218,7 @@ public class MovingService {
         comment.setCommentUser(movingDao.findById(User.class, Long.parseLong(commentDto.getCommentUserId())));
         comment.setUnCommentUser(movingDao.findById(User.class, Long.parseLong(commentDto.getUnCommentUserId())));
         movingDao.persist(comment);
-        Moving moving = movingDao.findById(Moving.class,commentDto.getMovingId());
+        Moving moving = movingDao.findById(Moving.class, commentDto.getMovingId());
         moving.setCommentCount(moving.getCommentCount().add(new BigDecimal(1)));
 //        List<CommentDto> commentDtoList = Lists.newArrayList();
 //        List<Comment> commentList = movingDao.findById(Moving.class, Long.parseLong(commentDto.getMovingId())).getCommentList();
@@ -230,4 +227,8 @@ public class MovingService {
         return new ResponseDto();
     }
 
+    public List<WeiXinDto> allWeiXin() {
+        List<WeiXinDto> weixinDtos = movingDao.listWeiXin();
+        return weixinDtos;
+    }
 }
