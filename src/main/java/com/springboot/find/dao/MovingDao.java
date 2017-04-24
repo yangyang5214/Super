@@ -4,6 +4,7 @@ import com.springboot.common.dao.BaseDao;
 import com.springboot.find.entity.Beauty;
 import com.springboot.find.entity.Market;
 import com.springboot.find.entity.Moving;
+import com.springboot.find.entity.WeiXin;
 import com.springboot.find.ws.dto.WeiXinDto;
 import org.springframework.stereotype.Repository;
 
@@ -40,8 +41,8 @@ public class MovingDao extends BaseDao {
         return query.getResultList();
     }
 
-    public List<WeiXinDto> listWeiXin(){
-        String jpql="select weixin.content,weixin.imageUrl,weixin.url from WeiXin weixin order by weixin.creationTime desc ";
+    public List<WeiXin> listWeiXin(){
+        String jpql="select weixin from WeiXin weixin order by weixin.creationTime desc ";
         Query query = em.createQuery(jpql);
         return query.getResultList();
     }

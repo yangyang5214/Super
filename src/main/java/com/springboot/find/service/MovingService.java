@@ -8,11 +8,8 @@ import com.springboot.common.util.DataUtil;
 import com.springboot.common.util.FastDFSUtil;
 import com.springboot.common.util.StringUtil;
 import com.springboot.find.dao.MovingDao;
-import com.springboot.find.entity.Beauty;
-import com.springboot.find.entity.Comment;
-import com.springboot.find.entity.Market;
+import com.springboot.find.entity.*;
 import com.springboot.find.ws.dto.*;
-import com.springboot.find.entity.Moving;
 import com.springboot.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -228,7 +225,14 @@ public class MovingService {
     }
 
     public List<WeiXinDto> allWeiXin() {
-        List<WeiXinDto> weixinDtos = movingDao.listWeiXin();
-        return weixinDtos;
+        List<WeiXinDto> weiXinDtoList  = Lists.newArrayList();
+        List<WeiXin> weiXin = movingDao.listWeiXin();
+        for (WeiXin xin : weiXin) {
+            WeiXinDto weiXinDto = new WeiXinDto();
+            weiXinDto.setContent(xin.getContent());
+            weiXinDto.setImageUrl(ip + xin.getImageUrl());
+            weiXinDto.setUrl(xin.getUrl());
+        }
+        return weiXinDtoList;
     }
 }
