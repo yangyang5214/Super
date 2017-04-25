@@ -54,6 +54,13 @@ public class MovingDao extends BaseDao {
         return (long) query.getSingleResult();
     }
 
+    public List<Beauty> getBeaytyUserDatas(long userId){
+        String jpql="select beauty from Beauty beauty where beauty.user.id =:userId";
+        Query query = em.createQuery(jpql);
+        query.setParameter("userId",userId);
+        return  query.getResultList();
+    }
+
     public long getMovingUserData(long userId){
         String jpql="select count(moving.id) from Moving moving where moving.user.id =:userId";
         Query query = em.createQuery(jpql);
@@ -61,10 +68,25 @@ public class MovingDao extends BaseDao {
         return (long) query.getSingleResult();
     }
 
+
+    public List<Moving> getMovingUserDatas (long userId){
+        String jpql="select moving from Moving moving where moving.user.id =:userId";
+        Query query = em.createQuery(jpql);
+        query.setParameter("userId",userId);
+        return  query.getResultList();
+    }
+
     public long getMarketUserData(long userId){
         String jpql="select count(market.id) from Market market where market.user.id =:userId";
         Query query = em.createQuery(jpql);
         query.setParameter("userId",userId);
         return (long) query.getSingleResult();
+    }
+
+    public List<Market> getMarketUserDatas(long userId){
+        String jpql="select market from Market market where market.user.id =:userId";
+        Query query = em.createQuery(jpql);
+        query.setParameter("userId",userId);
+        return  query.getResultList();
     }
 }
