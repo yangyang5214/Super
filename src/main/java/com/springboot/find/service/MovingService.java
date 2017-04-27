@@ -174,6 +174,7 @@ public class MovingService {
 
     public MovingDto formatMoving(Moving moving) {
         MovingDto movingDto = new MovingDto();
+        movingDto.setId(moving.getId());
         movingDto.setAvatarUrl(ip + moving.getUser().getAvatarUrl());
         movingDto.setUserId(String.valueOf(moving.getUser().getId()));
         movingDto.setUserName(moving.getUser().getNickName());
@@ -190,37 +191,36 @@ public class MovingService {
         movingDto.setPosition(moving.getPosition());
         movingDto.setCommentCount(String.valueOf(moving.getCommentCount()));
         movingDto.setGoodCount(String.valueOf(moving.getGoodCount()));
-        if (Collections3.isNotEmpty(moving.getCommentList())) {
-            List<CommentDto> listComment = Lists.newArrayList();
-            moving.getCommentList().stream().forEach(p -> listComment.add(formatComment(p)));
-            movingDto.setListComment(listComment);
-        }
         return movingDto;
     }
 
     public CommentDto formatComment(Comment comment) {
         CommentDto commentDto = new CommentDto();
+        commentDto.setId(comment.getId());
+        commentDto.setCommentUserImage(comment.getCommentUser().getAvatarUrl());
+        commentDto.setCommentUserName(comment.getCommentUser().getNickName());
         commentDto.setContent(comment.getContent());
-        commentDto.setCommentUserId(String.valueOf(comment.getCommentUser().getId()));
-        commentDto.setUnCommentUserId(String.valueOf(comment.getUnCommentUser().getId()));
-        commentDto.setMovingId(String.valueOf(comment.getMoving().getId()));
+        commentDto.setCommentUserId(comment.getCommentUser().getId());
+        commentDto.setUnCommentUserId(comment.getUnCommentUser().getId());
+        commentDto.setUnCommentUserName(comment.getUnCommentUser().getNickName());
+        commentDto.setMovingId(comment.getMoving().getId());
         return commentDto;
     }
 
-    public ResponseDto publishComment(CommentDto commentDto) {
+    public ResponseDto publishComment(long movingId,String content,long userId,long unUserId) {
         ListResponseDto<CommentDto> listResponseDto = new ListResponseDto<>();
         Comment comment = new Comment();
-        comment.setContent(commentDto.getContent());
-        comment.setMoving(movingDao.findById(Moving.class, Long.parseLong(commentDto.getMovingId())));
-        comment.setCommentUser(movingDao.findById(User.class, Long.parseLong(commentDto.getCommentUserId())));
-        comment.setUnCommentUser(movingDao.findById(User.class, Long.parseLong(commentDto.getUnCommentUserId())));
+        comment.setContent(content);
+        comment.setMoving(movingDao.findById(Moving.class, movingId));
+        comment.setCommentUser(movingDao.findById(User.class, userId));
+        comment.setUnCommentUser(movingDao.findById(User.class,unUserId));
         movingDao.persist(comment);
-        Moving moving = movingDao.findById(Moving.class, commentDto.getMovingId());
-        moving.setCommentCount(moving.getCommentCount().add(new BigDecimal(1)));
-//        List<CommentDto> commentDtoList = Lists.newArrayList();
-//        List<Comment> commentList = movingDao.findById(Moving.class, Long.parseLong(commentDto.getMovingId())).getCommentList();
-//        commentList.stream().forEach(p -> commentDtoList.add(formatComment(p)));
-//        listResponseDto.setObjs(commentDtoList);
+        Moving moving = movingDao.findById(Moving.class, movingId);
+        if (moving.getCommentCount() !=  null){
+            moving.setCommentCount(moving.getCommentCount().add(new BigDecimal(1)));
+        }else{
+            moving.setCommentCount(new BigDecimal(1));
+        }
         return new ResponseDto();
     }
 
@@ -237,4 +237,14 @@ public class MovingService {
         }
         return weiXinDtoList;
     }
+
+    public List<CommentDto> getCommentById(long movingId) {
+        List<CommentDto> commentDtoList = Lists.newArrayList();
+        Moving moving = movingDao.findById(Moving.class,movingId);
+        if (Collections3.isNotEmpty(moving.getCommentList())){
+            moving.getCommentList().stream().forEach(p->commentDtoList.add(formatComment(p)));
+        }
+        return commentDtoList;
+    }
+
 }

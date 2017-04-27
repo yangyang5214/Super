@@ -9,10 +9,7 @@ import com.springboot.find.ws.dto.BeautyDto;
 import com.springboot.find.ws.dto.CommentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.UnsupportedEncodingException;
@@ -54,9 +51,9 @@ public class MovingWebService {
         return new Gson().toJson(movingService.allWeiXin());
     }
 
-    @RequestMapping(value = "moving/publish/comment", method = RequestMethod.POST)
-    public ResponseDto publishComment(CommentDto commentDto) {
-        return movingService.publishComment(commentDto);
+    @RequestMapping(value = "moving/publish/comment", method = RequestMethod.GET)
+    public ResponseDto publishComment(long movingId,String content,long userId,long unUserId) {
+        return movingService.publishComment(movingId,content,userId,unUserId);
     }
 
     @RequestMapping(value = "beauty/allBeauty", method = RequestMethod.GET)
@@ -69,5 +66,9 @@ public class MovingWebService {
         return new Gson().toJson(movingService.listMarket(offset, size));
     }
 
+    @RequestMapping(value = "moving/comment", method = RequestMethod.GET)
+    public String getCommentById(long movingId) {
+        return new Gson().toJson(movingService.getCommentById(movingId));
+    }
 
 }

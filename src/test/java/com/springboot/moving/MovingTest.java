@@ -54,17 +54,24 @@ public class MovingTest {
     public  void  publishComment(){
         ArrayList<String> arrayList = new ArrayList<>();
         CommentDto commentDto = new CommentDto();
-        commentDto.setMovingId(1+"");
+        commentDto.setMovingId(1);
         commentDto.setContent("我是评论");
-        commentDto.setCommentUserId("2");
-        commentDto.setUnCommentUserId("1");
-        movingService.publishComment(commentDto);
+        commentDto.setCommentUserId(2);
+        commentDto.setUnCommentUserId(1);
     }
 
     @Test
     public  void allWeiXinTest(){
         movingService.allWeiXin();
     }
+
+
+    @Test
+    public  void getCommentByIdTest(){
+        movingService.getCommentById(64);
+    }
+
+
 
     @Test
     public void arrayListTest(){
