@@ -197,6 +197,7 @@ public class MovingService {
     public CommentDto formatComment(Comment comment) {
         CommentDto commentDto = new CommentDto();
         commentDto.setId(comment.getId());
+        commentDto.setCommentTime(DataUtil.formatDate(comment.getCreationTime()));
         commentDto.setCommentUserImage(ip + comment.getCommentUser().getAvatarUrl());
         commentDto.setCommentUserName(comment.getCommentUser().getNickName());
         commentDto.setContent(comment.getContent());
