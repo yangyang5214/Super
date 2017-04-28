@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -242,8 +244,10 @@ public class MovingService {
     public List<CommentDto> getCommentById(long movingId) {
         List<CommentDto> commentDtoList = Lists.newArrayList();
         Moving moving = movingDao.findById(Moving.class,movingId);
-        if (Collections3.isNotEmpty(moving.getCommentList())){
-            moving.getCommentList().stream().forEach(p->commentDtoList.add(formatComment(p)));
+        List<Comment> list = moving.getCommentList();
+        Collections.reverse(list);
+        if (Collections3.isNotEmpty(list)){
+            list.stream().forEach(p->commentDtoList.add(formatComment(p)));
         }
         return commentDtoList;
     }
