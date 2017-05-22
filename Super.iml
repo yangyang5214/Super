@@ -142,5 +142,6 @@
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jeecg:easypoi-annotation:2.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpmime:4.3.3" level="project" />
+    <orderEntry type="library" name="net.coobird:thumbnailator:0.4.8" level="project" />
   </component>
 </module>
