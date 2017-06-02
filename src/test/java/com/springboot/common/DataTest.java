@@ -46,4 +46,11 @@ public class DataTest {
 
         System.out.println(DataUtil.formatDate(DataUtil.stringToDate("2017-04-13 12:12:59")));
     }
+
+    @Test
+    public void doubleTest(){
+        System.out.println(0.3 == 0.3);
+        System.out.println(0.1*3);
+        System.out.println(0.1*3 == 0.3);
+    }
 }

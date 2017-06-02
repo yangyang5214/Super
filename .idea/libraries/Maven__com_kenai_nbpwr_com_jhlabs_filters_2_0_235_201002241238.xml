@@ -3,9 +3,7 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.m2/repository/com/kenai/nbpwr/com-jhlabs-filters/2.0.235-201002241238/com-jhlabs-filters-2.0.235-201002241238.jar!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$USER_HOME$/.m2/repository/com/kenai/nbpwr/com-jhlabs-filters/2.0.235-201002241238/com-jhlabs-filters-2.0.235-201002241238-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.m2/repository/com/kenai/nbpwr/com-jhlabs-filters/2.0.235-201002241238/com-jhlabs-filters-2.0.235-201002241238-sources.jar!/" />
     </SOURCES>

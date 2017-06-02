@@ -88,5 +88,7 @@ public class ListTest {
     public  void finalTest(){
          final StringBuffer  stringBuffer=  new StringBuffer("10");
          stringBuffer.append("111");
+
+        System.out.println("32" + 32);
     }
 }

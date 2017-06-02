@@ -3,9 +3,7 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.m2/repository/com/kenai/nbpwr/org-jdesktop-swingx/1.6-201002261215/org-jdesktop-swingx-1.6-201002261215.jar!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$USER_HOME$/.m2/repository/com/kenai/nbpwr/org-jdesktop-swingx/1.6-201002261215/org-jdesktop-swingx-1.6-201002261215-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.m2/repository/com/kenai/nbpwr/org-jdesktop-swingx/1.6-201002261215/org-jdesktop-swingx-1.6-201002261215-sources.jar!/" />
     </SOURCES>

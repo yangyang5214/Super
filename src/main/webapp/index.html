@@ -4,7 +4,32 @@
     <meta charset="UTF-8">
     <title></title>
 </head>
+<script type="text/javascript">
+    function ajax() {
+        var BASE_URL = "http://10.134.240.210:8090/";
+        var xmlHttpRequest = new XMLHttpRequest();
+        if (xmlHttpRequest != null){
+            xmlHttpRequest.open("get",BASE_URL + "find/moving/allMoving?size=10&offset=1",true);
+            xmlHttpRequest.send(null)
+            xmlHttpRequest.onreadystatechange = doResult;
+        }
+        function doResult() {
+            if (xmlHttpRequest.readyState == 4){
+                if (xmlHttpRequest.status == 200){
+                    document.getElementById("moving").innerHTML = xmlHttpRequest.responseText;
+                }
+            }
+        }
+    }
+
+
+</script>
 <body>
 hello
+<div id = "moving" >
+    <form method="get" action="">
+        <input type="button" value="点击" onclick="ajax()">
+    </form>
+</div>
 </body>
 </html>
